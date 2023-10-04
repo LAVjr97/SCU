@@ -8,12 +8,12 @@ numbers a;
 
 void main()
 {
-    if(n > m){
+ /*   if(n > m){
         i = partition(a, m, n);
         quickSort(a, m, i);
         quickSort(a, i+ 1, n);
     }
-
+*/
 
 
     readArray();
@@ -72,6 +72,7 @@ int partition(numbers a, int y, int z)
     
     return j;
 }
+
 
 void exchange(int a, int b)
 {
