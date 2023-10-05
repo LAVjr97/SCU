@@ -28,6 +28,17 @@
 
 int main (int argc, char *argv[])
 {
+    struct sockaddr_in {
+        sa_family_t sin_family; /* address family: AF_INET */
+        in_port_t sin_port; /* port in network byte order */
+        struct in_addr sin_addr; /* internet address */
+    };
+
+    /* Internet address. */
+    struct in_addr {
+        uint32_t s_addr; /* address in network byte order */
+    };
+
     int        sockfd = 0;              // socket descriptor
     char       net_buff[SIZE];          // to hold the bytes read from socket
     char       file_buff[SIZE];         // to hold the bytes read from source file
@@ -45,8 +56,17 @@ int main (int argc, char *argv[])
     memset (net_buff, '0', sizeof (net_buff));
     memset (file_buff, '0', sizeof (file_buff));
     memset (&serv_addr, '0', sizeof (serv_addr));
-    
+        
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);  //creates a socketfd
+
+    connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
+
+    write(sockfd, argv[4], sizeof(argv[4]));
+
+    source_file = fopen(argv[4], "r");
+
+    fread(file_buff, 1, 10, source_file);
+
     return 0; 
-    
 }
 

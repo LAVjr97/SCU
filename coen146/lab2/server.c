@@ -21,7 +21,7 @@
 #include <sys/types.h>
 
 
-int main (int argc, char *argv[])
+int main (int argc, char *argv[]) 
 {
     struct sockaddr_in {
         sa_family_t sin_family; /* address family: AF_INET */
@@ -42,7 +42,7 @@ int main (int argc, char *argv[])
     char    net_buff[1024];             // buffer to hold characters read from socket
     FILE    *dest_file;                 // pointer to the file that will include the received bytes over socket
     int     backlog = 1;
-
+    int     size;
 
 
     if (argc < 2) // Note: the name of the program is counted as an argument
@@ -53,32 +53,28 @@ int main (int argc, char *argv[])
 
     bzero(net_buff, 1024);
 
-    //set up structs 
+    //set up struct
     serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = argv[1]; //sets port number to be used 
+    serv_addr.sin_port = atoi(argv[1]); //sets port number to be used 
     serv_addr.sin_addr.s_addr = inet_addr("127.0.0.1"); //ip adress of home
 
-
     socket_fd = socket(AF_INET, SOCK_STREAM, 0);  //creates a socket fd
-    int i = bind(socket_fd, &serv_addr, sizeof(serv_addr));
-    printf("Bind Value, %d ", i);
+    bind(socket_fd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
     listen(socket_fd, backlog);
 
-    connection_fd = accept(socket_fd, &serv_addr, sizeof(serv_addr));
+    connection_fd = accept(socket_fd, (struct sockaddr *) NULL, NULL);
+    read(connection_fd, net_buff, sizeof(net_buff));
 
+    dest_file = fopen(net_buff, "w");
+    bzero(net_buff, 1024);
 
+    write(connection_fd, &message, 10);
 
-
-    /*
-    net_bytes_read = read(connection_fd, net_buff, 1024); 
-    if(net_bytes_read < 0) 
-        error("ERROR reading from socket");
-    printf("Here is the message: %s\n", net_buff);
-
-    int n = write(connection_fd, "I got your message", 18);
+    while((size = read(connection_fd, net_buff, sizeof(net_buff))) > 0)
+        fwrite(net_buff, 10, size, dest_file);
     
-    if(n < 0)
-        error("ERROR writing to socket");
-    */
+    fclose(dest_file);
+
+    close(connection_fd);
 }
 
