@@ -28,17 +28,6 @@
 
 int main (int argc, char *argv[])
 {
-    struct sockaddr_in {
-        sa_family_t sin_family; /* address family: AF_INET */
-        in_port_t sin_port; /* port in network byte order */
-        struct in_addr sin_addr; /* internet address */
-    };
-
-    /* Internet address. */
-    struct in_addr {
-        uint32_t s_addr; /* address in network byte order */
-    };
-
     int        sockfd = 0;              // socket descriptor
     char       net_buff[SIZE];          // to hold the bytes read from socket
     char       file_buff[SIZE];         // to hold the bytes read from source file
@@ -58,22 +47,28 @@ int main (int argc, char *argv[])
     memset (&serv_addr, '0', sizeof (serv_addr));
         
     serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = atoi(argv[1]); //sets port number to be used 
+    serv_addr.sin_port = htons(atoi(argv[2])); //sets port number to be used 
+    serv_addr.sin_addr.s_addr = inet_addr("127.0.0.1"); //ip adress of home
     
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);  //creates a socketfd
-
-    connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
-
-    write(sockfd, argv[4], sizeof(argv[4]));
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);  //creates a socketfd 
     
-    source_file = fopen(argv[4], "r");
+    connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+    printf("Connection Established \n"); 
 
-    while(fread(file_buff, 1, 10, source_file) > 0)
-        //fread(file_buff, 1, 10, source_file);
-        write(sockfd, file_buff, 10);
+    //Writes the name of the destination file to the socket
+    write(sockfd, argv[4], strlen(argv[4]) + 1); 
+
+    source_file = fopen(argv[3], "r");
+    printf("File Name Sent \n");
+
+    //Writes the source file to the socket
+    while((net_bytes_read = fread(file_buff, 1, sizeof(file_buff), source_file)) > 0)
+        write(sockfd, file_buff, net_bytes_read); 
     
+    printf("File Sent! \n");
+
     fclose(source_file);
-
+    close(sockfd);
     return 0; 
 }
 

@@ -23,17 +23,6 @@
 
 int main (int argc, char *argv[]) 
 {
-    struct sockaddr_in {
-        sa_family_t sin_family; /* address family: AF_INET */
-        in_port_t sin_port; /* port in network byte order */
-        struct in_addr sin_addr; /* internet address */
-    };
-
-    /* Internet address. */
-    struct in_addr {
-        uint32_t s_addr; /* address in network byte order */
-    };
-
     char    message[10] = "received!";  // message to be sent to the client when the destination file name is received
     int     net_bytes_read;             // numer of bytes received over socket
     int     socket_fd = 0;              // socket descriptor
@@ -55,26 +44,34 @@ int main (int argc, char *argv[])
 
     //set up struct
     serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = atoi(argv[1]); //sets port number to be used 
+    serv_addr.sin_port = htons(atoi(argv[1])); //sets port number to be used 
     serv_addr.sin_addr.s_addr = inet_addr("127.0.0.1"); //ip adress of home
 
     socket_fd = socket(AF_INET, SOCK_STREAM, 0);  //creates a socket fd
-    bind(socket_fd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
+    if(bind(socket_fd, (const struct sockaddr *)&serv_addr, sizeof(serv_addr))<0)
+        perror("CANNOT BIND\n");
+
     listen(socket_fd, backlog);
 
-    connection_fd = accept(socket_fd, (struct sockaddr *) NULL, NULL);
-    read(connection_fd, net_buff, sizeof(net_buff)); 
-
-    bzero(net_buff, 1024);
-    dest_file = fopen(net_buff, "w");
-
-    write(connection_fd, &message, 10);
-
-    while((size = read(connection_fd, net_buff, sizeof(net_buff))) > 0)
-        fwrite(net_buff, 10, size, dest_file);
+    if((connection_fd = accept(socket_fd, (struct sockaddr *)NULL, NULL))<0)
+        perror("CONNECTION REFUSED\n");
     
+    printf("Connection Establsihed %d\n",connection_fd);
+
+    //Takes name in from the socket
+    read(connection_fd, net_buff, sizeof(net_buff));
+    printf("File Name Recieved \n");
+    if ((dest_file = fopen(net_buff, "w")) == NULL)
+        perror("dest_file NOT CREATED\n");
+    
+    //Resets the buffer
+    bzero(net_buff, 1024);
+
+    //Copies file from socket
+    while((net_bytes_read = read(connection_fd, net_buff, sizeof(net_buff))) > 0)
+        fwrite(net_buff, 1, net_bytes_read, dest_file);
+
+    printf("File Recieved! \n");    
     fclose(dest_file);
-
-    close(connection_fd);
+    close(connection_fd); 
 }
-
