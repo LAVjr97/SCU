@@ -57,15 +57,22 @@ int main (int argc, char *argv[])
     memset (file_buff, '0', sizeof (file_buff));
     memset (&serv_addr, '0', sizeof (serv_addr));
         
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_port = atoi(argv[1]); //sets port number to be used 
+    
     sockfd = socket(AF_INET, SOCK_STREAM, 0);  //creates a socketfd
 
     connect(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
 
     write(sockfd, argv[4], sizeof(argv[4]));
-
+    
     source_file = fopen(argv[4], "r");
 
-    fread(file_buff, 1, 10, source_file);
+    while(fread(file_buff, 1, 10, source_file) > 0)
+        //fread(file_buff, 1, 10, source_file);
+        write(sockfd, file_buff, 10);
+    
+    fclose(source_file);
 
     return 0; 
 }

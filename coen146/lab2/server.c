@@ -63,10 +63,10 @@ int main (int argc, char *argv[])
     listen(socket_fd, backlog);
 
     connection_fd = accept(socket_fd, (struct sockaddr *) NULL, NULL);
-    read(connection_fd, net_buff, sizeof(net_buff));
+    read(connection_fd, net_buff, sizeof(net_buff)); 
 
-    dest_file = fopen(net_buff, "w");
     bzero(net_buff, 1024);
+    dest_file = fopen(net_buff, "w");
 
     write(connection_fd, &message, 10);
 
