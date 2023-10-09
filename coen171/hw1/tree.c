@@ -5,8 +5,8 @@
  * lists are terminated by -1.
  */
 
-# include <stdio.h>
-# include <stdlib.h>
+# include <stdio.h> 
+# include <stdlib.h>  
 
 typedef struct node *tree;
 

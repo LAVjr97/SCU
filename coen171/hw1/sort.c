@@ -49,7 +49,8 @@ int partition(int y, int z)
         while(a[i] < x);
 
         if(i < j)
-            exchange(&a[i], &a[j]);
+            exchange(&a[i], &\
+            a[j]);
 
     }
     return j;
