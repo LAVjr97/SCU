@@ -117,8 +117,8 @@ def tinyMazeSearch(problem):
     sequence of moves will be incorrect, so only use this for tinyMaze.
     """
     from game import Directions
-    s = Directions.SOUTH
-    w = Directions.WEST
+    s = Directions.SOUTH 
+    w = Directions.WEST  
     return  [s, s, w, s, w, w, s, w]
 
 def breadthFirstSearch(problem):
@@ -127,12 +127,35 @@ def breadthFirstSearch(problem):
 
     You are not required to implement this, but you may find it useful for Q5.
     """
-
+    startState = problem.getStartState()
+    startNode = Node(startState, None, None, 0)
+    frontier = util.Queue()
     visited = []
+    frontier.push(startNode)    
 
-    frontier = Queue()
-    
-    
+    while(bool(frontier)): 
+        c = frontier.pop() 
+
+        if(c in visited):
+            continue 
+        else:
+            if(problem.goalTest(c.state)): 
+                path = []
+                while(c != startNode):
+                    path.append(c.action)
+                    c = c.parent
+                path.reverse()
+                print(path)
+                return path
+            else:
+                action = None
+                visited.append(c)  
+                for action in problem.getActions(c.state):  
+                    next = Node(problem.getResult(c.state, action), c, action, problem.getCost(c.state, action))
+                    if(next not in visited):  
+                        frontier.push(next)
+
+
 
 
 
