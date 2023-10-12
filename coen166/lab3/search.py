@@ -127,37 +127,36 @@ def breadthFirstSearch(problem):
 
     You are not required to implement this, but you may find it useful for Q5.
     """
-    startState = problem.getStartState()
+    startState = problem.getStartState() #gets the initial starting state
     startNode = Node(startState, None, None, 0)
-    frontier = util.Queue()
-    visited = []
+    frontier = util.Queue() #queue to keep track of the frontier nodes during the search
+    visited = [] 
     frontier.push(startNode)    
 
     while(bool(frontier)): 
-        c = frontier.pop() 
+        c = frontier.pop() #set current to the first frontier node
 
         if(c in visited):
             continue 
+
         else:
-            if(problem.goalTest(c.state)): 
+            if(problem.goalTest(c.state)): #check the goal state against the current state 
                 path = []
-                while(c != startNode):
-                    path.append(c.action)
+                while(c != startNode):  #current node goes back up the tree until it reaches the first node 
+                    path.append(c.action)   
                     c = c.parent
                 path.reverse()
-                print(path)
                 return path
+            
             else:
-                action = None
+                action = None 
                 visited.append(c)  
+                #iterates through the array of possible actions to reach a node
                 for action in problem.getActions(c.state):  
-                    next = Node(problem.getResult(c.state, action), c, action, problem.getCost(c.state, action))
+                    #creates a new node to be added to the frontier if its not present in visited
+                    next = Node(problem.getResult(c.state, action), c, action, problem.getCost(c.state, action)) 
                     if(next not in visited):  
                         frontier.push(next)
-
-
-
-
 
     util.raiseNotDefined()
     

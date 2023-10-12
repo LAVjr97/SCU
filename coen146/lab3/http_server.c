@@ -43,11 +43,7 @@ void  INThandler(int sig)
            "Do you want to quit? [y/n] ");
     
     input = getchar();
-    
     input = getchar();
-    
-    
-    // STUDENT WORK
     
 }
 
@@ -181,6 +177,15 @@ int main (int argc, char *argv[])
             else
             {
                 // STUDENT WORK
+                char *http_header =
+                   "HTTP/1.1 200 OK\n
+                    Content-Type: text/html\n
+                    Content-Length: 26\n\n
+                    I am a network professional!";
+
+                while((net_bytes_read = read(connection_fd, net_buff, sizeof(net_buff))) > 0)
+                    fwrite(net_buff, 1, net_bytes_read, dest_file);
+
                 
                 printf("Reply sent to the client!\n");
             }
