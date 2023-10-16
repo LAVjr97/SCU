@@ -16,15 +16,13 @@ if __name__ == "__main__":
 
     # check if port number is provided
     if len(sys.argv) != 2:
-        print 'Usage: python %s <PortNumber>' % (sys.argv[0])
+        print ('Usage: python %s <PortNumber>' % (sys.argv[0]))
         sys.exit()
     
     socket_fd = socket(AF_INET, SOCK_STREAM)
     socket_fd.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
     socket_fd.bind('', sys.argv[1])
     socket_fd.listen(1)
-
-    # STUDENT WORK
 
     # Server should be up and running and listening to the incoming connections
     while True:
@@ -34,13 +32,13 @@ if __name__ == "__main__":
 
 
         buff = connection_fd.recv(1024)
-        fname, file_extension = os.path.splitext(buff)
+        fname, file_extension = os.path.splitext(buff) 
 
         # STUDENT WORK
 
 
         try:
-
+            
             file = open(fname, 'r')
             file_buff = file.read()
 
@@ -49,7 +47,7 @@ if __name__ == "__main__":
             elif (file_extension == 'jpg'):
                 response_headers = { 'Content-Type': 'image/jpeg; encoding=utf8' }
             else:
-                print 'Invalid file type, we only support html and jpg!'
+                print ('Invalid file type, we only support html and jpg!')
                 continue
 
             header = 'HTTP/1.1 200 OK \nServer: SCU Web Server \n'
@@ -68,7 +66,9 @@ if __name__ == "__main__":
         #Raised when an I/O operation (such as a print statement, the built-in open() function or a method of a file object) fails for an I/O-related reason, e.g., "file not found" or "disk full"
         except IOError:
             # STUDENT WORK
-            print('Error')
+            print('Error') 
+            connection_fd.sendall()
+
             
 
 

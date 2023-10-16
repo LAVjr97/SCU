@@ -131,12 +131,12 @@ def breadthFirstSearch(problem):
     startNode = Node(startState, None, None, 0)
     frontier = util.Queue() #queue to keep track of the frontier nodes during the search
     visited = [] 
-    frontier.push(startNode)    
+    frontier.push(startNode)  
 
     while(bool(frontier)): 
-        c = frontier.pop() #set current to the first frontier node
+        c = frontier.pop() #set current to the first frontier node 
 
-        if(c in visited):
+        if(c in visited): 
             continue 
 
         else:
@@ -144,19 +144,19 @@ def breadthFirstSearch(problem):
                 path = []
                 while(c != startNode):  #current node goes back up the tree until it reaches the first node 
                     path.append(c.action)   
-                    c = c.parent
-                path.reverse()
-                return path
+                    c = c.parent 
+                path.reverse() 
+                return path 
             
             else:
                 action = None 
-                visited.append(c)  
+                visited.append(c) 
                 #iterates through the array of possible actions to reach a node
                 for action in problem.getActions(c.state):  
                     #creates a new node to be added to the frontier if its not present in visited
                     next = Node(problem.getResult(c.state, action), c, action, problem.getCost(c.state, action)) 
                     if(next not in visited):  
-                        frontier.push(next)
+                        frontier.push(next) 
 
     util.raiseNotDefined()
     
