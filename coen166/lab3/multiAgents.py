@@ -119,8 +119,8 @@ class MinimaxAgent(MultiAgentSearchAgent):
         Here are some method calls that might be useful when implementing minimax.
 
         gameState.getLegalActions(agentIndex):
-        Returns a list of legal actions for an agent
-        agentIndex=0 means Pacman, ghosts are >= 1
+        Returns a list of legal actions for an agent 
+        agentIndex=0 means Pacman, ghosts are >= 1 
 
         gameState.generateSuccessor(agentIndex, action):
         Returns the successor game state after an agent takes an action
@@ -128,6 +128,18 @@ class MinimaxAgent(MultiAgentSearchAgent):
         gameState.getNumAgents():
         Returns the total number of agents in the game
         """
+
+
+
+        def maxValue_fun(state, PlayerIndex, otherarguments):
+            
+            return maxValue_fun ( , , )
+        
+        def minValue_fun(state, PlayerIndex, otherarguments): 
+
+
+
+
         "*** YOUR CODE HERE ***"
         util.raiseNotDefined()
 

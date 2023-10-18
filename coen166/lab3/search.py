@@ -35,7 +35,7 @@ class SearchProblem:
         """
         util.raiseNotDefined()
 
-    def goalTest(self, state):
+    def goalTest(self, state): 
         """
           state: Search state
 
@@ -117,7 +117,7 @@ def tinyMazeSearch(problem):
     sequence of moves will be incorrect, so only use this for tinyMaze.
     """
     from game import Directions
-    s = Directions.SOUTH 
+    s = Directions.SOUTH
     w = Directions.WEST  
     return  [s, s, w, s, w, w, s, w]
 
@@ -147,7 +147,6 @@ def breadthFirstSearch(problem):
                     c = c.parent 
                 path.reverse() 
                 return path 
-            
             else:
                 action = None 
                 visited.append(c) 
@@ -204,14 +203,29 @@ def UniformCostSearch(problem):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
 
+    firstNode = Node(problem.getStartState(), None, None, 0)
+    visitList = []
+    pQ = util.PriorityQueue()
+    pQ.push(firstNode, 0)
+    while not pQ.isEmpty():
+        currentNode = pQ.pop()
+        if currentNode.state in visitList:
+            continue
+        else:
+            visitList.append(currentNode.state)
+            if(problem.goalTest(currentNode.state)):
+                path = []
+                while currentNode != firstNode:
+                    path.append(currentNode.action)
+                    currentNode = currentNode.parent
+                path.reverse()
+                return path
+        for newAction in problem.getActions(currentNode.state):
+            state = problem.getResult(currentNode.state, newAction)
+            cost = currentNode.path_cost + problem.getCost(currentNode.state, newAction) 
+            node = Node(state, currentNode, newAction, cost) 
+            pQ.push(node, cost + heuristic(state, problem))
 
-
-
-
-
-
-    
-    "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
 
 # Abbreviations
