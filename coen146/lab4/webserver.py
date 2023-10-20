@@ -28,8 +28,8 @@ if __name__ == "__main__":
         print('The server is ready to respond to incoming requests...')
 
         connection_fd, addr = socket_fd.accept() 
-        byteBuff = connection_fd.recv(1024) 
-        buff = str(byteBuff, 'utf-8') #converts the binary recieved into a string 
+        byteBuff = connection_fd.recv(1024)
+        buff = str(byteBuff) #converts the binary recieved into a string 
         print('\nRecieved HTTP request: \n' + buff) 
 
         try:
@@ -37,19 +37,11 @@ if __name__ == "__main__":
             
             if(fname == ' HTTP'): #if fname only has ' HTTP' that means no file was specified in the HTTP request header.
                 fname = 'index-1.html' 
-                file_extension = 'html'
+                file_extension = 'html' 
+
             else:
                 fname = fname.split(' HTTP')[0] #gets rid of the 'HTTP' that was next to the file name 
-                if(fname == 'favicon.ico'):
-                    continue
                 file_extension = fname.split('.')[1] #gets the file extension
-
-            
-
-            file = open(fname, 'rb') #opens the file to be read as binary 
-            file_buff = file.read()  #stores the file into a buffer
-           
-            contentLength = str(len(file_buff)) 
 
             if (file_extension == 'html'):
                 response_headers =  'Content-Type: text/html; encoding=utf8' 
@@ -59,10 +51,15 @@ if __name__ == "__main__":
                 print ('Invalid file type, we only support html and jpg!') 
                 continue
 
+            file = open(fname, 'rb') #opens the file to be read as binary 
+            file_buff = file.read()  #stores the file into a buffer
+
+            contentLength = str(len(file_buff)) 
+
             header = 'HTTP/1.1 200 OK \nServer: SCU Web Server \n' + response_headers + '\nContent-Length: ' + contentLength + '\n\n'
             print('HTTP Header Sent to Client: \n' + header)
-
-            header = bytes(header, encoding='utf-8') #converts the string header into a bytes object
+            
+            header = bytes(header) #converts the string header into a bytes object
             header = header + file_buff 
 
             connection_fd.sendall(header) 
@@ -76,14 +73,15 @@ if __name__ == "__main__":
             print('Error') 
 
             file = open('error.html', 'rb') 
-            file_buff = file.read()
+            file_buff = file.read() 
             contentLength = str(len(file_buff))
 
-            header = 'HTTP/1.1 200 OK \nServer: SCU Web Server \nContent-Type: text/html \nContent-Length: ' + contentLength + '\n\n'
-            header = bytes(header, encoding='utf-8') #converts the string header into bytes object 
+            header = 'HTTP/1.1 404 OK \nServer: SCU Web Server \nContent-Type: text/html \nContent-Length: ' + contentLength + '\n\n'            
+            header = bytes(header) #converts the string header into a bytes object
+
             header = header + file_buff 
 
             connection_fd.sendall(header) 
 
             file.close()
-            connection_fd.close() 
+            connection_fd.close()
