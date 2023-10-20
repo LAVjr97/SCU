@@ -3,12 +3,7 @@ Object subclass: #Node
     classVariableNames: ''
     poolDisctionaries: ''
 
-!Node class methodsFor: 'instance'!
-data: x
-    ^self new instance: x
-!!
-
-!Node methodsFor: 'access'!
+!Node methodsFor: 'homework'!
 data
     ^data 
 !
@@ -20,16 +15,58 @@ left
 right  
     ^right
 !
-insert: x
-    data < x
-        ifTrue: [left isNil    
-                    ifTrue: [left := Node data: x] 
-                    ifFalse: [left insert: x]]
 
-        ifFalse: [right isNil 
-                    ifTrue: [right := Node data: x] 
-                    ifFalse: [right insert: x]]
+data: x
+    ^self new instance: x
 !
+
+insert: anObject
+    data < anObject
+            ifTrue: [left isNil ifTrue: [left := Node data: anObject] ifFalse: [left insert: anObject]]
+            ifFalse: [right isNil ifTrue: [right := Node data: anObject] ifFalse: [right insert: anObject]]
+!
+
+memeber: anObject
+    data = anObject ifTrue: [^true].
+    data > anObject ifTrue: [left isNil ifTrue: [^false] ifFalse: [ ^left memeber: anObject]].
+!!
+
+Object subclass: #Tree
+    instanceVariableNames: 'root'
+    classVariableNames: ''
+    poolDisctionaries: '' 
+
+!Tree methodsFor: 'homework'!
+root   
+    ^root
+!
+
+new
+    ^super new instance: x
+!
+
+initialize
+    root := nil 
+!
+
+insert: x
+    root isNil ifTrue: [root := Node data: x ] ifFalse: [root insert]
+!
+
+memebr: anObject
+    root isNil ifTrue: [^false] ifFalse: [^root member: x] 
+!!
+
+"
+member: x
+    |i| 
+    root isNil
+        ifTrue: [i := false]
+        ifFalse: [root member: x]
+    ^i"
+
+
+"
 memeber: x
     |i|
     x < data
@@ -41,36 +78,4 @@ memeber: x
                         ifFalse: [right member: x]]
     ^i
 !!
-
-Object subclass: #Tree
-    instanceVariableNames: 'root'
-    classVariableNames: ''
-    poolDisctionaries: '' 
-
-!Tree class methodsFor: 'instance'!
-new
-    ^super new instance: x
-!!
-
-!Tree methodsFor: 'initialize'!
-initialize
-    root := nil 
-!!
-
-!Tree methodsFor: 'access'!
-root   
-    ^root
-!
-
-insert: x
-    root isNil 
-        ifTrue: [root := Node data: x ]
-        ifFalse: [root insert]
-!
-member: x
-    |i| 
-    root isNil
-        ifTrue: [i := false]
-        ifFalse: [root member: x]
-    ^i
-!!
+"
