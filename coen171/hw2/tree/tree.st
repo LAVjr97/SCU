@@ -3,7 +3,7 @@ Object subclass: #Node
     classVariableNames: ''
     poolDisctionaries: ''
 
-!Node methodsFor: 'homework'!
+!Nod class methodsFor: 'homework'!
 data
     ^data 
 !
@@ -36,13 +36,13 @@ Object subclass: #Tree
     classVariableNames: ''
     poolDisctionaries: '' 
 
-!Tree methodsFor: 'homework'!
+!Tree class methodsFor: 'homework'!
 root   
     ^root
 !
 
 new
-    ^super new instance: x
+    ^super new initialize
 !
 
 initialize

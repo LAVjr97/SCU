@@ -2,7 +2,7 @@
 # include "Queens.h"
 
 # ifndef PIECE
-# define PIECE Queen
+# define PIECE Amazon
 # endif
 
 int n;
