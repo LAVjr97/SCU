@@ -18,17 +18,19 @@ receiver_email = raw_input("Please enter receiver's email address: ")
 
 
 # ping google.com and save the result
-# STUDENT WORK
+#popen is basically command line prompt 
+command = 'ping -c 2 www.google.com'
+ping = subprocess.Popen(command, stdout=subprocess.PIPE)
+ping = ping.stdout.read()
 
+print ('\nNow contacting the mail server...') 
+connection = smtplib.SMTP_SSL('smtp.gmail.com', port) 
+connection.login(email_address, password)
 
+MSG = 'SUBJECT: Results From Ping\r\n '
 
-print '\nNow contacting the mail server...'
-# STUDENT WORK
-
-
-print '\nSending email...'
-
-
-# STUDENT WORK
+print ('\nSending email...') 
+connection.sendmail(email_address, receiver_email, MSG)
+connection.close()
 
 
