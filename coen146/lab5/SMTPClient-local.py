@@ -21,7 +21,10 @@ mailserver = 'localhost'
 clientSocket = socket(AF_INET, SOCK_STREAM)
 
 # Port number may change according to the mail server
-clientSocket.connect(mailserver, 587)
+#like the bind funtion but instead takes the ip addr and port number as a tuple
+port = 8080
+addr = (mailserver, 8080)
+clientSocket.connect(addr)
 
 
 recv = clientSocket.recv(1024).decode()
@@ -31,38 +34,65 @@ if recv[:3] != '220':
 
 
 # Send HELO command along with the server address
-HELO = 'HELO lvillalta@scu.edu'
+HELO = 'HELO localhost:8080\r\n'
+HELO = HELO.encode()
 
-sendall()
+clientSocket.sendall(HELO)
+recv = clientSocket.recv(1024).decode()
+print(recv)
 
 # Send MAIL FROM command and print server response
-# STUDENT WORK
+MAIL_FROM = "MAIL FROM: lvillalta@scu.edu\r\n"
+MAIL_FROM = MAIL_FROM.encode()
 
+clientSocket.sendall(MAIL_FROM)
+recv = clientSocket.recv(1024).decode()
 
+print(recv)
 
 # Send RCPT TO command and print server response
 # STUDENT WORK
+RCPT_TO = 'RCPT TP: lavjr97@gmail.com\r\n'
+RCPT_TO = RCPT_TO.encode()
 
-
+clientSocket.sendall(RCPT_TO)
+recv = clientSocket.recv(1024).decode()
+print(recv)
 
 # Send DATA command and print server response
 # STUDENT WORK
+DATA = 'DATA\r\n'
+DATA = DATA.encode()
 
+clientSocket.sendall(DATA)
+recv = clientSocket.recv(1024).decode()
+print(recv)
 
-
-# Send message data.
-# STUDENT WORK
-
-
+# Send message data. 
+# STUDENT WORK 
+MSG_DATA = 'SUBJECT: Hello World\r\n Line 1\n Line 2\n Last Line\n'
+MSG_DATA = MSG_DATA.encode()
 
 # Message to send
 # STUDENT WORK
-
+clientSocket.sendall(MSG_DATA)
+recv = clientSocket.recv(1024).decode()
+print(recv)
 
 # Message ends with a single period
 # STUDENT WORK
+MSG_DATA = '\r\n.\r\n'
+MSG_DATA = MSG_DATA.encode()
 
+clientSocket.sendall(MSG_DATA)
+recv = clientSocket.sendall(MSG_DATA)
+print(recv)
 
 # Send QUIT command and get server response
 # STUDENT WORK
+QUIT = 'QUIT\r\n'
+QUIT = QUIT.encode()
 
+clientSocket.sendall(QUIT)
+recv = clientSocket.recv(1024).decode()
+print(recv)
