@@ -26,12 +26,10 @@ port = 6000
 addr = (mailserver, port)
 clientSocket.connect(addr)
 
-
 recv = clientSocket.recv(1024).decode()
 print(recv)
 if recv[:3] != '220':
     print('220 reply not received from server.')
-
 
 # Send HELO command along with the server address
 HELO = 'HELO localhost:8080\r\n'
