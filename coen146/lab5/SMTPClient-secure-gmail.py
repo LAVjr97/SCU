@@ -7,6 +7,7 @@
 
 # NOTE: Do not forget to allow login from less secure apps in your gmail account. Otherwise gmail will complain about username and password.
 
+#bpaq ghrp tfqg ltaq
 
 import smtplib, ssl
 import subprocess
