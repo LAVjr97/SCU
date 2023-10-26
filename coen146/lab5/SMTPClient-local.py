@@ -32,16 +32,14 @@ if recv[:3] != '220':
     print('220 reply not received from server.')
 
 # Send HELO command along with the server address
-HELO = 'HELO localhost:8080\r\n'
-HELO = bytes(HELO)
+HELO = bytes('HELO localhost:8080\r\n')
 
 clientSocket.sendall(HELO)
 recv = clientSocket.recv(1024).decode()
 print(recv)
 
 # Send MAIL FROM command and print server response
-MAIL_FROM = "MAIL FROM: lvillalta@scu.edu\r\n"
-MAIL_FROM = bytes(MAIL_FROM)
+MAIL_FROM = bytes("MAIL FROM: lvillalta@scu.edu\r\n")
 
 clientSocket.sendall(MAIL_FROM)
 recv = clientSocket.recv(1024).decode()
@@ -50,8 +48,7 @@ print(recv)
 
 # Send RCPT TO command and print server response
 # STUDENT WORK
-RCPT_TO = 'RCPT TO: lvillalta@scu.edu\r\n'
-RCPT_TO = bytes(RCPT_TO)
+RCPT_TO = bytes('RCPT TO: lvillalta@scu.edu\r\n')
 
 clientSocket.sendall(RCPT_TO)
 recv = clientSocket.recv(1024).decode()
@@ -59,8 +56,7 @@ print(recv)
 
 # Send DATA command and print server response
 # STUDENT WORK
-DATA = 'DATA\r\n'
-DATA = bytes(DATA)
+DATA = bytes('DATA\r\n')
 
 clientSocket.sendall(DATA)
 recv = clientSocket.recv(1024).decode()
@@ -68,8 +64,7 @@ print(recv)
 
 # Send message data. 
 # STUDENT WORK 
-MSG_DATA = 'SUBJECT: Hello World\r\n Line 1\n Line 2\n Last Line\n'
-MSG_DATA = bytes(MSG_DATA)
+MSG_DATA = bytes('SUBJECT: Hello World\r\n Line 1\n Line 2\n Last Line\n')
 
 # Message to send
 # STUDENT WORK
@@ -77,8 +72,7 @@ clientSocket.sendall(MSG_DATA)
 
 # Message ends with a single period
 # STUDENT WORK
-MSG_DATA = '\r\n.\r\n'
-MSG_DATA = bytes(MSG_DATA)
+MSG_DATA = bytes('\r\n.\r\n')
 
 clientSocket.sendall(MSG_DATA)
 recv = clientSocket.recv(1024).decode()
@@ -86,8 +80,7 @@ print(recv)
 
 # Send QUIT command and get server response
 # STUDENT WORK
-QUIT = 'QUIT\r\n'
-QUIT = bytes(QUIT)
+QUIT = bytes('QUIT\r\n')
 
 clientSocket.sendall(QUIT)
 recv = clientSocket.recv(1024).decode()

@@ -13,9 +13,9 @@ import smtplib, ssl
 import subprocess
 
 port = 465  # For SSL
-email_address = raw_input("Please enter your email address: ")
-password = raw_input("Please enter your password: ")
-receiver_email = raw_input("Please enter receiver's email address: ")
+email_address = raw_input("Please enter your email address: ") 
+password = raw_input("Please enter your password: ") 
+receiver_email = raw_input("Please enter receiver's email address: ") 
 
 
 # ping google.com and save the result
