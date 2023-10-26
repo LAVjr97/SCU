@@ -7,8 +7,6 @@
 
 # NOTE: Do not forget to allow login from less secure apps in your gmail account. Otherwise gmail will complain about username and password.
 
-#bpaq ghrp tfqg ltaq
-
 import smtplib, ssl
 import subprocess
 
@@ -20,18 +18,15 @@ receiver_email = raw_input("Please enter receiver's email address: ")
 
 # ping google.com and save the result
 #popen is basically command line prompt 
-command = 'ping -c 2 www.google.com'
-ping = subprocess.Popen(command, stdout=subprocess.PIPE)
+ping = subprocess.Popen('ping -c 2 www.google.com', stdout=subprocess.PIPE, shell = True) 
 ping = ping.stdout.read()
 
 print ('\nNow contacting the mail server...') 
 connection = smtplib.SMTP_SSL('smtp.gmail.com', port) 
 connection.login(email_address, password)
 
-MSG = 'SUBJECT: Results From Ping\r\n '
+MSG = 'SUBJECT: Results From Ping\r\n' + ping 
 
 print ('\nSending email...') 
 connection.sendmail(email_address, receiver_email, MSG)
 connection.close()
-
-
