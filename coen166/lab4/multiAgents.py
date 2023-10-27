@@ -90,7 +90,7 @@ class MultiAgentSearchAgent(Agent):
     """
     This class provides some common elements to all of your
     multi-agent searchers.  Any methods defined here will be available
-    to the MinimaxPacmanAgent & AlphaBetaPacmanAgent.
+    to the MinimaxPacmanAgent, AlphaBetaPacmanAgent & ExpectimaxPacmanAgent.
 
     You *do not* need to make any changes here, but you can if you want to
     add functionality to all your adversarial search agents.  Please do not
@@ -108,7 +108,7 @@ class MultiAgentSearchAgent(Agent):
 
 class MinimaxAgent(MultiAgentSearchAgent):
     """
-    Your minimax agent (question 7)
+    Your minimax agent (question 2)
     """
 
     def getAction(self, gameState):
@@ -119,44 +119,102 @@ class MinimaxAgent(MultiAgentSearchAgent):
         Here are some method calls that might be useful when implementing minimax.
 
         gameState.getLegalActions(agentIndex):
-        Returns a list of legal actions for an agent 
-        agentIndex=0 means Pacman, ghosts are >= 1 
+        Returns a list of legal actions for an agent
+        agentIndex=0 means Pacman, ghosts are >= 1
 
         gameState.generateSuccessor(agentIndex, action):
         Returns the successor game state after an agent takes an action
 
         gameState.getNumAgents():
         Returns the total number of agents in the game
+
+        gameState.isWin():
+        Returns whether or not the game state is a winning state
+
+        gameState.isLose():
+        Returns whether or not the game state is a losing state
         """
-
-
-
-        def maxValue_fun(gameState, depth):
-            actions = gameState.getLegalActions(0)
-            values = []
+        "*** YOUR CODE HERE ***"
+          
+        def maxValue_fun(gameState, depth, agent):
+            #compares gamestate
+            if(gameState.isWin() or gameState.isLose()):
+                return scoreEvaluationFunction(gameState)
+            #checks if there are any legal actions to take (end of the tree)
+            if not gameState.getLegalActions(agent):
+                return scoreEvaluationFunction(gameState)
+            
+            actions = gameState.getLegalActions(agent)
+            values = [] 
             bestAction = None 
 
+            #iterates through all the child nodes of pacman
             for action in actions:
-                succState = gameState.generateSuccessor(0, action)
-                newValue = minValue_fun(gameState, depth, 1)
+                succState = gameState.generateSuccessor(0, action) 
+                newValue = minValue_fun(succState, depth, 1) 
+                values.append(newValue) 
 
-
-
-
-
-
-            if depth == 1:
-                return bestAction
+            #gets the max value given from the children nodes 
+            maximum = max(values)
+            
+            #not a root node
+            if(depth != 1):
+                return maximum
+            
+            #root node
             else:
-                max = max()
-                return 
+                i = values.index(maximum)
+                bestAction = actions[i]
+                return bestAction
+            
+        def minValue_fun(gameState, depth, agent):
+                #compares gamestate
+                if(gameState.isWin() or gameState.isLose()):
+                    return scoreEvaluationFunction(gameState)
+                #checks if there are any legal actions to take (end of the tree)
+                if not gameState.getLegalActions(agent):
+                    return scoreEvaluationFunction(gameState)
+                
+                actions = gameState.getLegalActions(agent)
+                values = []
 
+                #iterates through all the child nodes of pacman
+                for action in actions:
+                    successorState =  gameState.generateSuccessor(agent, action)
+                    nVal = 0
+                    #if the current agent isn't the last ghost agent
+                    if(agent < gameState.getNumAgents() -1):
+                        nVal = minValue_fun(successorState, depth, agent+1)
+                        values.append(nVal)
+                    else:
+                        #found the leaf nodes 
+                        if(depth == self.depth):
+                            values.append(scoreEvaluationFunction(successorState))
+                        #pacman agent is next
+                        else:
+                            nVal = maxValue_fun(successorState, depth+1, 0)
+                            values.append(nVal)
+                
+                minimum = min(values)
+                return minimum
+        return maxValue_fun(gameState, 1,0)
+        util.raiseNotDefined()
 
+class AlphaBetaAgent(MultiAgentSearchAgent):
+    """
+    Your minimax agent with alpha-beta pruning (question 3)
+    """
+
+    def getAction(self, gameState):
+        """
+        Returns the minimax action using self.depth and self.evaluationFunction
+        """
+        "*** YOUR CODE HERE ***"
         util.raiseNotDefined()
 
 class ExpectimaxAgent(MultiAgentSearchAgent):
     """
-    Your expectimax agent (question 8)
+      Your expectimax agent (question 4)
     """
 
     def getAction(self, gameState):
@@ -172,7 +230,7 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
 def betterEvaluationFunction(currentGameState):
     """
     Your extreme ghost-hunting, pellet-nabbing, food-gobbling, unstoppable
-    evaluation function (question 9).
+    evaluation function (question 5).
 
     DESCRIPTION: <write something here so we know what you did>
     """
@@ -181,4 +239,3 @@ def betterEvaluationFunction(currentGameState):
 
 # Abbreviation
 better = betterEvaluationFunction
-
