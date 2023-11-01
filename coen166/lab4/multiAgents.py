@@ -137,10 +137,8 @@ class MinimaxAgent(MultiAgentSearchAgent):
         "*** YOUR CODE HERE ***"
           
         def maxValue_fun(gameState, depth, agent):
-            #compares gamestate
             if(gameState.isWin() or gameState.isLose()):
                 return scoreEvaluationFunction(gameState)
-            #checks if there are any legal actions to take (end of the tree)
             if not gameState.getLegalActions(agent):
                 return scoreEvaluationFunction(gameState)
             
@@ -148,55 +146,46 @@ class MinimaxAgent(MultiAgentSearchAgent):
             values = [] 
             bestAction = None 
 
-            #iterates through all the child nodes of pacman
             for action in actions:
                 succState = gameState.generateSuccessor(0, action) 
                 newValue = minValue_fun(succState, depth, 1) 
                 values.append(newValue) 
 
-            #gets the max value given from the children nodes 
             maximum = max(values)
             
-            #not a root node
             if(depth != 1):
                 return maximum
             
-            #root node
             else:
                 i = values.index(maximum)
                 bestAction = actions[i]
                 return bestAction
             
         def minValue_fun(gameState, depth, agent):
-                #compares gamestate
                 if(gameState.isWin() or gameState.isLose()):
                     return scoreEvaluationFunction(gameState)
-                #checks if there are any legal actions to take (end of the tree)
                 if not gameState.getLegalActions(agent):
                     return scoreEvaluationFunction(gameState)
                 
                 actions = gameState.getLegalActions(agent)
                 values = []
 
-                #iterates through all the child nodes of pacman
                 for action in actions:
                     successorState =  gameState.generateSuccessor(agent, action)
                     nVal = 0
-                    #if the current agent isn't the last ghost agent
                     if(agent < gameState.getNumAgents() -1):
                         nVal = minValue_fun(successorState, depth, agent+1)
-                        values.append(nVal)
-                    else:
-                        #found the leaf nodes 
+                        values.append(nVal) 
+                    else: 
                         if(depth == self.depth):
                             values.append(scoreEvaluationFunction(successorState))
-                        #pacman agent is next
                         else:
                             nVal = maxValue_fun(successorState, depth+1, 0)
                             values.append(nVal)
                 
                 minimum = min(values)
                 return minimum
+        
         return maxValue_fun(gameState, 1,0)
         util.raiseNotDefined()
 
