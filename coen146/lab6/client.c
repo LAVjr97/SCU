@@ -48,8 +48,9 @@ int main (int argc, char *argv[])
     
     
     // configure address
-    // STUDENT WORK
-    
+    serverAddr.sin_family = PF_INET;
+    serverAddr.sin_port = htons(atoi(argv[1]));
+    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
     
     // create UDP socket
     if ((sock = socket (PF_INET, SOCK_DGRAM, 0)) < 0)
@@ -68,19 +69,24 @@ int main (int argc, char *argv[])
 
     
     printf ("Sending file name...");
-    // STUDENT WORK
+    connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+
     printf ("Done!\n");
 
     
     printf ("Now sending source file contents...");
-    // STUDENT WORK
+    while(r = fread(buff, 1, sizeof(buff), fp) > 0)
+        my_send(buff, r)
+        
     printf ("Done!\n");
     
     
     // After transmitting the file, a packet with no data (len = 0) is sent to
     // notify the receiver that the file transfer has completed
     printf ("Informing the server about the completion of file transmission...\n");
-    // STUDENT WORK
+    char *empty[];
+    my_send(empty, 0);
+
     printf ("Done!\n");
     
     
@@ -99,13 +105,15 @@ void my_send (char *data, int nbytes)
 {
     PACKET	buf;
     int		r;
-    
-    // STUDENT WORK
-    
+    int     tempState;
+
+    buf.header.seq_ack = state;
+    buf.header.len = nbytes;
     
     //default checksum value is 0
     buf.header.checksum = 0;
     
+
     
     // simulating erroneous channel... corruption and loss
     // the probability of correct checksum is 80%
@@ -115,6 +123,7 @@ void my_send (char *data, int nbytes)
     else
         printf ("Packet got corrupted on the way!\n");
     
+    tempState = state;
     
     // the probability of no packet loss is 80%
     // STUDENT WORK
