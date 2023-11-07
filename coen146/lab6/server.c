@@ -39,7 +39,9 @@ int main (int argc, char *argv[])
 
     
     // STUDENT WORK
-    
+    serverAddr.sin_family = PF_INET;
+    serverAddr.sin_port = htons(atoi(argv[1]));
+    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
 
 	// create socket
 	if ((sock = socket (AF_INET, SOCK_DGRAM, 0)) < 0)
@@ -80,7 +82,7 @@ int main (int argc, char *argv[])
 	while ((n = my_receive (&buf)) > 0)
 	{
 		printf ("writing to file... n = %d\n", n);
-        // STUDENT WORK
+        fwrite(&buff.data, 1, n, fp);
 	}
 
 	close (sock);
@@ -123,6 +125,7 @@ int my_receive (PACKET *recv_pck)
         
         // recalculate checksum
         // STUDENT WORK
+		cs_calc = calc_checksum((char *)&recv_pck, sizeof(HEADER) + recv_pck.header.len);
         
         // check if checksum matches, and the sequence number is correct too
         if (cs_in == cs_calc  &&  recv_pck->header.seq_ack == state)
@@ -130,14 +133,29 @@ int my_receive (PACKET *recv_pck)
             printf ("Checksum passed! Sequence number matched!\n");
 
 			// good packet
-            // STUDENT WORK
-            
+			ack_packet.seq_ack = state;
+			ack_packet.len = 0;
+            ack_packet.checksum = calc_checksum((char *)&ack_packet, sizeof(ack_packet));
             
             // simulating erroneous channel...corruption and loss
-            // STUDENT WORK
-            
+			r = rand () % 10;
+    		if (r > 8){
+        		ack_packet.checksum = 0; 
+				printf ("Packet got corrupted on the way!\n");
+			}
+
+			r = rand () % 10;
+			if(r > 8)
+				printf("Packet was lost on the way\n");
+			else
+				//packet is being sent, but can have its checksum corrupted
+				sendto(sock, &ack_packet, sizeof(HEADER), 0, (struct sockaddr *) &ret_addr, sizeof(ret_addr));
+
 			// now we are expecting the next packet
-            // STUDENT WORK
+            if (state == 0) 
+				state = 1;
+			else 
+				state = 0;
             
 			return recv_pck->header.len;
 		}
@@ -146,14 +164,33 @@ int my_receive (PACKET *recv_pck)
             printf ("Checksum/sequence number check failed!\n");
 
 			// bad packet
-            // STUDENT WORK
-            
+			int nstate;
+
+			if(state == 0)
+				nstate = 1;
+			else 
+				nstate = 0; 
+
+			ack_packet.seq_ack = nstate;
+			ack_packet.len = 0;
+			ack_packet.checksum = calc_checksum((char *)&ack_packet, sizeof(ack_packet));
             printf ("Resending ack for sequence number: %d...\n", ack_packet.seq_ack );
 
             
             // simulating erroneous channel...corruption and loss
-            // STUDENT WORK
+			r = rand () % 10;
+    		if (r > 8){
+        		ack_packet.checksum = 0; 
+				printf ("Packet got corrupted on the way!\n");
+			}
 
+			r = rand () % 10;
+			if(r > 8)
+				printf("Packet was lost on the way\n");
+			else
+				//packet is being sent, but can have its checksum corrupted
+				sendto(sock, &ack_packet, sizeof(HEADER), 0, (struct sockaddr *) &ret_addr, sizeof(ret_addr));
+			
 		}
 
 	}
@@ -169,8 +206,9 @@ int calc_checksum (char *buf, int tbytes)
     char    cs = 0;
     char    *p;
 
-    // STUDENT WORK
-    
+    for(i = 0; i < tbytes; i++)
+		cs = cs ^ buf[i]
+
     return (int)cs;
 }
 

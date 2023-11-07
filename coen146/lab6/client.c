@@ -126,8 +126,7 @@ void my_send (char *data, int nbytes)
     tempState = state;
     
     // the probability of no packet loss is 80%
-    // STUDENT WORK
-    
+    r    
     
     // wait for ack
     // STUDENT WORK
