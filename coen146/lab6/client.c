@@ -126,10 +126,16 @@ void my_send (char *data, int nbytes)
     tempState = state;
     
     // the probability of no packet loss is 80%
-    r    
-    
+    r = rand () % 10;
+    if(r > 8) 
+        printf("Packet was lost on the way\n");
+    else 
+        
     // wait for ack
-    // STUDENT WORK
+    recv_ack(&buf, nbytes);
+    if(tempState == state)
+        my_send(data, nbytes); 
+    
     
     return;
 }
@@ -188,15 +194,18 @@ void recv_ack (PACKET *buf, int nbytes)
             // so there is data to be read
             if (rv == 1)
             {
-                // STUDENT WORK
+                counter = 0;
+                break;
             }
             
             // this means select() returned due to timeout event
             else if (rv == 0)
             {
                 printf ("timeout\n");
-                
-                // STUDENT WORK
+                counter++; 
+                if(counter == 3)
+                    return; 
+                continue; 
             }
         }
         
@@ -211,17 +220,24 @@ void recv_ack (PACKET *buf, int nbytes)
         
         
         // recalculate checksum of the received ack packet
-        // STUDENT WORK
+        receive_buf.checksum = calc_checksum((char*)&receive_buf, sizeof(HEADER));
         
         
         
         // a bad ack has been received
-        // STUDENT WORK
-        
+        if(cs != receive_buf.checksum || state != receive_buf.seq_ack){
+            return;
+        }        
         
         // resend packet
         // simulating erroneous channel...corruption and loss
-        // STUDENT WORK
+        else{
+            if(state == 0) 
+				state = 1;
+			else 
+				state = 0;
+        }
+
     }
 }
 
@@ -236,8 +252,8 @@ int calc_checksum (char *buf, int tbytes)
     char	cs = 0;
     char 	*p;
     
-    // STUDENT WORK
-    
+    for(i = 0; i < tbytes; i++)
+		cs = cs ^ buf[i];    
     
     return (int)cs;
 }

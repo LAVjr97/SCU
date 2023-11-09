@@ -152,7 +152,7 @@ int my_receive (PACKET *recv_pck)
 				sendto(sock, &ack_packet, sizeof(HEADER), 0, (struct sockaddr *) &ret_addr, sizeof(ret_addr));
 
 			// now we are expecting the next packet
-            if (state == 0) 
+            if(state == 0) 
 				state = 1;
 			else 
 				state = 0;
@@ -207,7 +207,7 @@ int calc_checksum (char *buf, int tbytes)
     char    *p;
 
     for(i = 0; i < tbytes; i++)
-		cs = cs ^ buf[i]
+		cs = cs ^ buf[i];
 
     return (int)cs;
 }
