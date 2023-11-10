@@ -60,7 +60,7 @@ int main (int argc, char *argv[])
     }
     printf ("UDP socket has been created!\n");
     
-    if ((fp = fopen (argv[3], "rb")) == NULL)
+    if ((fp = fopen (argv[3], "r")) == NULL)
     {
         printf ("fopen error\n");
         return 1;
@@ -69,26 +69,33 @@ int main (int argc, char *argv[])
 
     
     printf ("Sending file name...");
-    connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+    if(connect(sock, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) != 0){
+        printf("Error creating socket! \n");
+        return 1;
+    };
 
+    my_send(argv[4], strlen(argv[4]));
+    
     printf ("Done!\n");
 
     
     printf ("Now sending source file contents...");
-    while(r = fread(buff, 1, sizeof(buff), fp) > 0)
-        my_send(buff, r)
-        
+    memset(buff, '\0', sizeof(buff));
+    fread(buff, 1, sizeof(buff), fp);
+    printf("Buff: %s", buff); 
+
+    my_send(buff, strlen(buff));
+
     printf ("Done!\n");
     
     
     // After transmitting the file, a packet with no data (len = 0) is sent to
     // notify the receiver that the file transfer has completed
     printf ("Informing the server about the completion of file transmission...\n");
-    char *empty[];
+    char empty[1];
     my_send(empty, 0);
 
     printf ("Done!\n");
-    
     
     fclose (fp);
     close (sock);
@@ -109,17 +116,18 @@ void my_send (char *data, int nbytes)
 
     buf.header.seq_ack = state;
     buf.header.len = nbytes;
-    
+ 
     //default checksum value is 0
     buf.header.checksum = 0;
-    
+    strcpy(buf.data, data);
 
-    
     // simulating erroneous channel... corruption and loss
     // the probability of correct checksum is 80%
     r = rand () % 10;
-    if (r <= 8)
-        buf.header.checksum = calc_checksum ((char *)&buf, sizeof (HEADER) + nbytes);
+    if (r <= 8){
+        int bytesize = sizeof(HEADER) + buf.header.len; 
+        buf.header.checksum = calc_checksum ((char *)&buf, bytesize);//sizeof (HEADER) + buf.header.len);
+    } 
     else
         printf ("Packet got corrupted on the way!\n");
     
@@ -129,14 +137,16 @@ void my_send (char *data, int nbytes)
     r = rand () % 10;
     if(r > 8) 
         printf("Packet was lost on the way\n");
-    else 
-        
+    else{
+        printf("Now sending packet \n"); 
+        sendto(sock, &buf, sizeof(HEADER) + nbytes, 0, NULL, sizeof(serverAddr));
+    }
     // wait for ack
     recv_ack(&buf, nbytes);
-    if(tempState == state)
+
+    if(tempState == state) 
         my_send(data, nbytes); 
-    
-    
+
     return;
 }
 
@@ -200,7 +210,7 @@ void recv_ack (PACKET *buf, int nbytes)
             
             // this means select() returned due to timeout event
             else if (rv == 0)
-            {
+            {   
                 printf ("timeout\n");
                 counter++; 
                 if(counter == 3)
@@ -210,9 +220,8 @@ void recv_ack (PACKET *buf, int nbytes)
         }
         
         
-        
         // we break the previous while(1) loop when there is data to be read (ack received)
-        
+    
         recvfrom (sock, &receive_buf, sizeof(HEADER), 0, NULL, NULL);
         
         cs = receive_buf.checksum;
@@ -220,7 +229,7 @@ void recv_ack (PACKET *buf, int nbytes)
         
         
         // recalculate checksum of the received ack packet
-        receive_buf.checksum = calc_checksum((char*)&receive_buf, sizeof(HEADER));
+        receive_buf.checksum = calc_checksum((char *)&receive_buf, sizeof(HEADER));
         
         
         
@@ -252,9 +261,8 @@ int calc_checksum (char *buf, int tbytes)
     char	cs = 0;
     char 	*p;
     
-    for(i = 0; i < tbytes; i++)
-		cs = cs ^ buf[i];    
-    
+	cs = cs ^ tbytes;
+
     return (int)cs;
 }
 

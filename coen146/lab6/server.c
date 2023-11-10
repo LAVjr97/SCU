@@ -44,23 +44,24 @@ int main (int argc, char *argv[])
     serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
 
 	// create socket
-	if ((sock = socket (AF_INET, SOCK_DGRAM, 0)) < 0)
+	if ((sock = socket (PF_INET, SOCK_DGRAM, 0)) < 0)
 	{
 		printf ("socket error\n");
 		return 1;
 	}
-
+	printf("Socket created \n");
 	// bind
 	if (bind (sock, (struct sockaddr *)&serverAddr, sizeof (serverAddr)) != 0)
 	{
 		printf ("bind error\n");
 		return 1;
 	}
-
+	printf("Socket bound \n");
     // NOTE: this program uses UDP socket, so there is no need to listen to incoming connections!
     
 	// receive name of the file
     // my_receive() function ensures the received data chunks are not corrupted
+
 	if ((n = my_receive (&buf)) <= 0)
 	{
 		printf ("could not get the name of the file\n");
@@ -68,7 +69,6 @@ int main (int argc, char *argv[])
 	}
     printf ("File name has been received!\n");
     
-
 	// open file
 	if ((fp = fopen (buf.data, "wb")) == NULL)
 	{
@@ -82,7 +82,7 @@ int main (int argc, char *argv[])
 	while ((n = my_receive (&buf)) > 0)
 	{
 		printf ("writing to file... n = %d\n", n);
-        fwrite(&buff.data, 1, n, fp);
+        fwrite(&buf.data, 1, n, fp);
 	}
 
 	close (sock);
@@ -115,18 +115,20 @@ int my_receive (PACKET *recv_pck)
         // address: A null pointer, or points to a sockaddr structure in which the sending address is to be stored.
         // The length and format of the address depend on the address family of the socket.
         // address_len: Specifies the length of the sockaddr structure pointed to by the address argument.
-		if ((nbytes = recvfrom (sock, recv_pck, sizeof(PACKET), 0, &ret_addr, &addr_size)) < 0)
+		if ((nbytes = recvfrom (sock, recv_pck, sizeof(PACKET), 0, &ret_addr, &addr_size)) < 0){
 			return -1;
-	
-        printf ("Received a UDP packet!\n");
+		}
+		        
+		printf ("Received a UDP packet!\n");
         
 		cs_in = recv_pck->header.checksum;
 		recv_pck->header.checksum = 0;
         
-        // recalculate checksum
-        // STUDENT WORK
-		cs_calc = calc_checksum((char *)&recv_pck, sizeof(HEADER) + recv_pck.header.len);
-        
+        // recalculate checksum 
+		
+		int bytesize = sizeof(HEADER) + recv_pck -> header.len;
+		cs_calc = calc_checksum((char *)&recv_pck, bytesize);
+			
         // check if checksum matches, and the sequence number is correct too
         if (cs_in == cs_calc  &&  recv_pck->header.seq_ack == state)
 		{
@@ -135,7 +137,6 @@ int my_receive (PACKET *recv_pck)
 			// good packet
 			ack_packet.seq_ack = state;
 			ack_packet.len = 0;
-            ack_packet.checksum = calc_checksum((char *)&ack_packet, sizeof(ack_packet));
             
             // simulating erroneous channel...corruption and loss
 			r = rand () % 10;
@@ -143,6 +144,8 @@ int my_receive (PACKET *recv_pck)
         		ack_packet.checksum = 0; 
 				printf ("Packet got corrupted on the way!\n");
 			}
+			else	
+				ack_packet.checksum = calc_checksum((char *)&ack_packet, sizeof(ack_packet));
 
 			r = rand () % 10;
 			if(r > 8)
@@ -202,12 +205,11 @@ int my_receive (PACKET *recv_pck)
 
 int calc_checksum (char *buf, int tbytes)
 {
-    int     i;
-    char    cs = 0;
-    char    *p;
+    int		i;
+    char	cs = 0;
+    char 	*p;
 
-    for(i = 0; i < tbytes; i++)
-		cs = cs ^ buf[i];
+	cs = cs ^ tbytes;
 
     return (int)cs;
 }
