@@ -80,6 +80,15 @@ class QLearningAgent(ReinforcementAgent):
           terminal state, you should return a value of 0.0.
         """
         "*** YOUR CODE HERE ***"
+        q = []
+        legalActions = self.getLegalActions(state)
+
+        if(legalActions):
+          for action in legalActions:
+            q.append(self.getQValue(state, action))
+          return max(q)
+
+        return 0.0
         util.raiseNotDefined()
 
     def computeActionFromQValues(self, state):
@@ -88,7 +97,22 @@ class QLearningAgent(ReinforcementAgent):
           are no legal actions, which is the case at the terminal state,
           you should return None.
         """
-        "*** YOUR CODE HERE ***"
+        act = []
+        q = [] 
+        legalActions = self.getLegalActions(state)
+
+        if(legalActions):
+          for action in legalActions:
+            act.append(action)
+            q.append(self.getQValue(state, action))
+          
+          max = max(q)
+          index = act.index(max)
+
+          return act[index]
+        
+        return None
+
         util.raiseNotDefined()
 
     def getAction(self, state):
@@ -117,7 +141,8 @@ class QLearningAgent(ReinforcementAgent):
           NOTE: You should never call this function,
           it will be called on your behalf
         """
-        "*** YOUR CODE HERE ***"
+        state = nextState
+        
         #util.raiseNotDefined()
         
         # self.qvalues[(state,action)] = ...
@@ -179,7 +204,7 @@ class ApproximateQAgent(PacmanQAgent):
           Should return Q(state,action) = w * featureVector
           where * is the dotProduct operator
         """
-        "*** YOUR CODE HERE ***"
+        
         util.raiseNotDefined()
 
     def update(self, state, action, nextState, reward):
