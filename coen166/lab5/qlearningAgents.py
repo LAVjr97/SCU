@@ -65,11 +65,14 @@ class QLearningAgent(ReinforcementAgent):
         if (state,action) in self.qvalues: # (state,action) is the key; (s,a) is the key (s,a): 0.5
             # return the associated q-value
             test = 0 # just for testing
+            return self.qvalues[(state, action)] 
         else:
             test = 0 # just for testing
             # update the dictionary self.qvalues with this unseen (s,a) and initialize its value as 0.0
             # self.qvalues[(s,a)]=0.0
-            # return this q-value     
+            # return this q-value
+            self.qvalues[(state, action)] = 0.0
+            return self.qvalues[(state, action)] 
             
 
     def computeValueFromQValues(self, state):
@@ -97,6 +100,7 @@ class QLearningAgent(ReinforcementAgent):
           are no legal actions, which is the case at the terminal state,
           you should return None.
         """
+        #Work on this function, dont know how to randomize/get best action from value
         act = []
         q = [] 
         legalActions = self.getLegalActions(state)
@@ -126,12 +130,15 @@ class QLearningAgent(ReinforcementAgent):
           HINT: To pick randomly from a list, use random.choice(list)
         """
         # Pick Action
+        #Implement the random part of of it
         legalActions = self.getLegalActions(state)
-        action = None
+        if(legalActions):
+          action = random.choice(legalActions)
+          return action 
+        return None
         "*** YOUR CODE HERE ***"
         util.raiseNotDefined()
 
-        return action
 
     def update(self, state, action, nextState, reward):
         """
@@ -141,11 +148,12 @@ class QLearningAgent(ReinforcementAgent):
           NOTE: You should never call this function,
           it will be called on your behalf
         """
-        state = nextState
-        
+
         #util.raiseNotDefined()
         
         # self.qvalues[(state,action)] = ...
+        self.qvalues[(state, action)] = (1 - self.alpha) * (self.qvalues[(state, action)]) + (self.alpha)(reward + (self.discount * self.qvalues[(nextState, self.getAction(nextState))]))
+
 
     def getPolicy(self, state):
         return self.computeActionFromQValues(state)
