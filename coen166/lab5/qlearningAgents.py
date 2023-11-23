@@ -88,7 +88,7 @@ class QLearningAgent(ReinforcementAgent):
 
         if(legalActions):
           for action in legalActions:
-            q.append(self.getQValue(state, action))
+            q.append(self.getQValue(state, action)) 
           return max(q)
 
         return 0.0
@@ -152,7 +152,7 @@ class QLearningAgent(ReinforcementAgent):
         #util.raiseNotDefined()
         
         # self.qvalues[(state,action)] = ...
-        self.qvalues[(state, action)] = (1 - self.alpha) * (self.qvalues[(state, action)]) + (self.alpha)(reward + (self.discount * self.qvalues[(nextState, self.getAction(nextState))]))
+        self.qvalues[(state, action)] = (1 - self.alpha) * (self.qvalues[(state, action)]) + (self.alpha)(reward )#+ (self.gamma * self.qvalues[(nextState, self.getAction(nextState))]))
 
 
     def getPolicy(self, state):
