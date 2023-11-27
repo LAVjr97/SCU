@@ -87,7 +87,7 @@ class Graph:
     def get_vertex(self, n):
         return self.vert_dict[n]
 
-    
+
     def add_edge(self, frm, to, cost = 0):
         if frm not in self.vert_dict:
             self.add_vertex(frm)
@@ -147,14 +147,14 @@ def dijkstra(aGraph, start):
 
             # distance from source to current + weight of link between current and next
             new_dist = current.get_distance() + current.get_weight(next)
-            print("current.get_distance(): ",current.get_distance())
+            #print("current.get_distance(): ",current.get_distance())
             prev_dist = next.get_distance()
-            print("Next.get_distance(): ", prev_dist)
+            #print("Next.get_distance(): ", prev_dist)
             
             # if we have a better path to reach 'next' from 'current'
             if new_dist < prev_dist:
                 next.set_distance(new_dist)
-                next.set_previous(prev_dist)
+                next.set_previous(current)
 
                 print ('updated : current = %s next = %s prev_dist = %s new_dist = %s' \
                     %(current.get_id(), next.get_id(), prev_dist, new_dist))
@@ -168,7 +168,7 @@ def dijkstra(aGraph, start):
            heapq.heappop(unvisited_queue)
 
         # 2. Put all vertices not visited into the queue
-        unvisited_queue = [(v.get_distance(), id(v), v) for v in aGraph]
+        unvisited_queue = [(v.get_distance(), id(v), v) for v in aGraph if not v.visited]
         heapq.heapify(unvisited_queue) 
 
 
@@ -242,19 +242,12 @@ if __name__ == '__main__':
     print (SPT_edges)
 
     
-
     G = g.get_netx()
 
     print("Nodes of graph: ")
     print(G.nodes())
     print("Edges of graph: ")
     print(G.edges())
-
-
-    # // ------------
-    # // STUDENT WORK
-    # // ------------
-
 
 
     plt.show()
