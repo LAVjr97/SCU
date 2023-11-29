@@ -8,6 +8,7 @@ from keras.layers import Flatten
 from keras.layers import Reshape
 import matplotlib.pyplot as plt
 import math
+
 # Load and preprocess Fashion MNIST data
 fashion_mnist = keras.datasets.fashion_mnist
 (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()

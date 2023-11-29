@@ -12,6 +12,7 @@ from tensorflow import keras
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import Flatten
+import matplotlib.pyplot as plt
 
 fashion_mnist = keras.datasets.fashion_mnist
 (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
@@ -36,7 +37,16 @@ num_correct = 0
 for i in range(len(y_test)):
     if y_test_hat[i]==y_test[i]:
         num_correct +=1
-        
+
 Accuracy_rate = num_correct/len(y_test)
 print("Accuracy Rate = ", Accuracy_rate)
 print(confusion_matrix(y_test, y_test_hat))
+
+fig, axes = plt.subplots(1, 10, figsize=(2*10,2*1)) #1 row, 10 columns
+
+for i in range(10):
+    ax = axes[i]
+    ax.imshow(x_test[i], cmap='gray')
+
+plt.tight_layout()
+plt.show()
