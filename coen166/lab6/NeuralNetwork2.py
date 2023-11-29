@@ -7,7 +7,7 @@ from keras.layers import Dense
 from keras.layers import Flatten
 from keras.layers import Reshape
 import matplotlib.pyplot as plt
-
+import math
 # Load and preprocess Fashion MNIST data
 fashion_mnist = keras.datasets.fashion_mnist
 (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
@@ -36,8 +36,7 @@ model.fit(x_train, x_train, epochs=10, batch_size=64)
 test_loss, test_accuracy = model.evaluate(x_test, x_test)
 predictions = model.predict(x_test)
 
-#psnr function takes the predicted image set and the original image set and takes in the range of max allowed value to return which is between 0 and 1
-psnr1 = tf.image.psnr(predictions, x_test, max_val=1.0)
+psnr1 = 10*math.log10(1/test_loss)
 
 print("Loss = ", test_loss)
 print("Accuracy = ", test_accuracy)
@@ -69,8 +68,8 @@ model2.fit(x_train2, x_train2, epochs=10, batch_size=64)
 test_loss2, test_accuracy2 = model2.evaluate(x_test2, x_test2)
 predictions2 = model2.predict(x_test2)
 
-#psnr function takes the predicted image set and the original image set and takes in the range of max allowed value to return which is between 0 and 1
-psnr2 = tf.image.psnr(predictions2, x_test2, max_val=1.0)
+psnr2 = 10*math.log10(1/test_loss2)
+
 
 print("Loss = ", test_loss2)
 print("Accuracy = ", test_accuracy2)
@@ -104,8 +103,8 @@ test_loss3, test_accuracy3 = model3.evaluate(x_test3, x_test3)
 # returns the predicted image set based on a given test
 predictions3 = model3.predict(x_test3)
 
-#psnr function takes the predicted image set and the original image set and takes in the range of max allowed value to return a value between 0 and 1
-psnr3 = tf.image.psnr(predictions3, x_test3, max_val=1.0)
+psnr3 = 10*math.log10(1/test_loss3)
+
 
 print("Loss = ", test_loss3)
 print("Accuracy = ", test_accuracy3)
