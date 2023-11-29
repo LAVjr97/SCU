@@ -249,5 +249,5 @@ if __name__ == '__main__':
     print("Edges of graph: ")
     print(G.edges())
 
-
+    
     plt.show()
