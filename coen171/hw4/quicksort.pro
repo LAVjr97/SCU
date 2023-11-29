@@ -1,5 +1,5 @@
-partition([], [], [], _).
-partition([H|X], [H|Y], Z, P) :- H < P, partition(X, Y, Z, P). 
+partition([], [], [], _) :- !.
+partition([H|X], [H|Y], Z, P) :- H < P, !, partition(X, Y, Z, P). 
 partition([H|X], Y, [H|Z], P) :- H >= P, partition(X, Y, Z, P).
 
 quicksort([], []).
