@@ -249,5 +249,23 @@ if __name__ == '__main__':
     print("Edges of graph: ")
     print(G.edges())
 
-    
+    weights = [G[u][v]["weight"] for u,v in G.edges()]
+
+    pos = nx.spring_layout(G)#, seed=3113794652)  # positions for all nodes
+    labels = nx.get_edge_attributes(G, "weight")
+    # nodes
+
+    options = {"edgecolors": "tab:gray", "node_size": 800, "alpha": 0.9}
+
+    nx.draw_networkx_labels(G, pos, font_size=22) 
+    nx.draw_networkx_nodes(G, pos, nodelist=G.nodes(), node_color="tab:red", **options)
+
+    # edges
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
+    nx.draw_networkx_edges(G, pos, width=1.0, alpha=.5)
+    nx.draw_networkx_edges(G, pos, edgelist=SPT_edges, width=4, alpha=0.5, edge_color="tab:red")
+
+
+    #nx.draw(G, with_labels = True)
+
     plt.show()
