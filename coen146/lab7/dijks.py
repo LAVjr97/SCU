@@ -262,6 +262,7 @@ if __name__ == '__main__':
 
     # edges
     nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
+    
     nx.draw_networkx_edges(G, pos, width=1.0, alpha=.5)
     nx.draw_networkx_edges(G, pos, edgelist=SPT_edges, width=4, alpha=0.5, edge_color="tab:red")
 
