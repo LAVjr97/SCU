@@ -1,0 +1,9 @@
+Name: Luis Villalta
+Date: 1/9/24
+Title: Lab1
+
+rectangle.sh
+
+
+
+circle.sh

@@ -1,7 +1,7 @@
 # Name: Luis Villalta
 # Date: 1/9/24
 # Title: Lab1
-# Description: This program computes the area of a circle given a radius
+# Description: This program computes the area of a rectangle given a height and width
 #!/bin/sh
 echo Executing $0
 echo $(/bin/ls | wc -l) files
