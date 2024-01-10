@@ -39,12 +39,16 @@ void  INThandler(int sig)
     char  input;
     
     signal(sig, SIG_IGN);
-    printf("Did you hit Ctrl-C?\n"
-           "Do you want to quit? [y/n] ");
+    printf("Did you hit Ctrl-C? Do you want to quit? [y/n] ");
     
     input = getchar();
-    input = getchar();
-    
+    if(input == 'y'){
+        close(socket_fd);
+        close(connection_fd);
+        exit(0);
+    }else
+        signal(SIGINT, INThandler);
+
 }
 
 
@@ -74,7 +78,7 @@ int main (int argc, char *argv[])
         printf ("Port number not specified!\n");
         return 1;
     }
-    
+
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(atoi(argv[1])); //sets port number to be used 
     serv_addr.sin_addr.s_addr = inet_addr("127.0.0.1"); //ip adress of home
@@ -91,14 +95,15 @@ int main (int argc, char *argv[])
 
     // To prevent "Address in use" error
     // The SO_REUSEADDR socket option, which explicitly allows a process to bind to a port which remains in TIME_WAIT
+    // STUDENT WORK
     if(setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, (const struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
         perror("setsockopt() Failed\n");
 
     
-    
     // bind it to all interfaces, on the specified port number
-
-
+    // STUDENT WORK
+    
+    
     // Accept up to 1 connections
     if (listen(socket_fd, 1) < 0)
     {
@@ -136,19 +141,32 @@ int main (int argc, char *argv[])
         printf ("Incoming connection: Accepted! \n");
         
         memset (net_buff, '\0', sizeof (net_buff));
-        
+        char command_buff[COMMAND_BUFF];
+
         // Return system utilization info
         if ( option == 1 )
         {
             // run a command -- we run ifconfig here (you can try other commands as well)
             FILE *system_info = popen("ifconfig", "r");
-            
+            char c;
+            int i = 0;
 
-            
-            
-            // STUDENT WORK
-            
-            
+            while((c = fgetc(system_info)) != EOF){
+                command_buff[i] = c;
+                i++;
+            } 
+
+            pclose(system_info);
+            char buff[20];  //new buff to store content length
+            char *message_buff = "HTTP/1.1 200 OK\nServer: SCU Web Server\nContent-Type: text/plain\nContent-Length: "; 
+
+            sprintf(buff, "%d\n\n", i);
+
+            write(connection_fd, message_buff, strlen(message_buff));
+            write(connection_fd, command_buff, strlen(command_buff));
+
+            printf("Reply sent to the client!\n");
+
             shutdown (connection_fd, SHUT_RDWR);
             close (connection_fd);
         }
@@ -165,27 +183,30 @@ int main (int argc, char *argv[])
             }
             
             // Open the source file
-            if ( ) // STUDENT WORK    )
+            if ((source_file = fopen(HTML_FILE, "r")) < 0)  
             {
                 printf ("Error: could not open the source file!\n");
-                
-                // STUDENT WORK
-                
                 return 1;
             }
             
             else
             {
-                // STUDENT WORK
-                char *http_header =
-                   "HTTP/1.1 200 OK\n
-                    Content-Type: text/html\n
-                    Content-Length: 26\n\n
-                    I am a network professional!";
+                char c;
+                int i;
 
-                while((net_bytes_read = read(connection_fd, net_buff, sizeof(net_buff))) > 0)
-                    fwrite(net_buff, 1, net_bytes_read, dest_file);
+                while((c = fgetc(source_file)) != EOF){
+                    file_buff[i] = c;
+                    i++;
+                }
 
+                fclose(source_file);
+                char buff[20]; //new buff to store content length
+                char *message_buff = "HTTP/1.1 200 OK\nServer: SCU Web Server\nContent-Type: text/html\nContent-Length: "; 
+                
+                sprintf(buff, "%d\n\n", i); 
+
+                write(connection_fd, message_buff, strlen(message_buff)); 
+                write(connection_fd, file_buff, strlen(file_buff));
                 
                 printf("Reply sent to the client!\n");
             }
