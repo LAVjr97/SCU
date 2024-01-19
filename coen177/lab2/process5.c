@@ -6,45 +6,33 @@
 
 
 int main(int argc, char *argv[]){
-    pid_t pid;
+    //pid_t pid;
     int i, n = atoi(argv[1]); 
     printf("\nBefore forking.\n");
-    /*pid = fork();
-    if(pid == -1)
-        fprintf(stderr, "can't fork, error %d\n", errno);
-    if(pid == 0){
-        pid = fork();
-        printf("Child process\n");
-        usleep(n/2);
-        /*for(i=0;i<2;i++){
-            printf("Child process %d\n", i);
-            usleep(n/2);
-        }
-    }
-    else{
-        pid = fork();
-        printf("\t \t \t Parent Process\n");
-        usleep(n/2);
-        /*for(i=0;i<7;i++){
-            printf("\t \t \t Parent Process %d \n", i);
-            usleep(n);
-        }
-    }*/
-    pid = fork();
-    for(i = 0; i < 3; i++){
-        if(pid == -1)
-            fprintf(stderr, "can't fork, error %d\n", errno);
-        if(pid == 0){
-            printf("Child process %d\n", pid);
-            exit(0);
-        }
-        else{
-            printf("\t \t \t Parent Process %d\n", pid);
-            pid = fork();
-            wait();
-        }
-    }
-    
+    pid_t pid, pid2, pid3, pid4;
 
+    //creates a child process
+    pid = fork();
+
+    //the child process creates a grandchild process 
+    if(pid == 0)
+        pid2 = fork();
+
+    //parent creates a secondary child process, first child creates a second grandchild process, and first grandchild process creates a greatgrand child process
+    pid3 = fork();
+
+    //first grandchild process creates a second Greatgrand child
+    if(pid3 != 0 && pid2 == 0)
+        pid4 = fork();
+
+    if(pid4 == 0 || (pid3 == 0 && pid2 == 0))
+        printf("Great grand child to parent process\n");
+    if((pid2 == 0 && pid == 0 && pid != 0) || (pid3 == 0 && pid2 != 0))
+        printf("Grandchildren to parent process\n");
+    if((pid == 0 && pid2 != 0 && pid3 != 0) || (pid3 == 0 && pid != 0))
+        printf("Children to parent process\n");
+    if(pid != 0 && pid3 != 0)
+        printf("Parent Process\n");
+    
     return 0;
 }
