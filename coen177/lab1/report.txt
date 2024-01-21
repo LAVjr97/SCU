@@ -3,7 +3,8 @@ Date: 1/9/24
 Title: Lab1
 
 rectangle.sh
-
+This was a simple program, don't have much to comment on it.
 
 
 circle.sh
+I did find interesting how complicated it was to get pi as an integer in order for it to work.
