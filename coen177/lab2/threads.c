@@ -10,7 +10,7 @@ int main(int argc, char *argv[]){
     pthread_t thread_id;
     int i, n = atoi(argv[1]); 
     printf("\nBefore threading.\n");
-    int code = pthread_create(&thread_id, NULL, main, NULL);
+    int code = pthread_create(&thread_id, NULL, main, NULL); 
     pthread_join(thread_id, NULL); 
     if(code != 0)
         fprintf(stderr, "can't create thread, error %d\n", errno);
@@ -26,4 +26,5 @@ int main(int argc, char *argv[]){
         }
     return 0;
 }
+
 //-lpthreads

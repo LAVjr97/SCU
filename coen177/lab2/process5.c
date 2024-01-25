@@ -5,9 +5,7 @@
 #include <errno.h>
 
 
-int main(int argc, char *argv[]){
-    //pid_t pid;
-    int i, n = atoi(argv[1]); 
+int main(){
     printf("\nBefore forking.\n");
     pid_t pid, pid2, pid3, pid4;
 
@@ -26,11 +24,11 @@ int main(int argc, char *argv[]){
         pid4 = fork();
 
     if(pid4 == 0 || (pid3 == 0 && pid2 == 0))
-        printf("Great grand child to parent process\n");
-    if((pid2 == 0 && pid == 0 && pid != 0) || (pid3 == 0 && pid2 != 0))
-        printf("Grandchildren to parent process\n");
+        printf("\t \t \t \t \t \t \t \t \tGreat grand child to parent process\n");
+    if((pid3 == 0 && pid2 != 0) || (pid2 == 0 && pid == 0 && pid != 0))
+        printf("\t \t \t \t \t \t Grandchildren to parent process\n");
     if((pid == 0 && pid2 != 0 && pid3 != 0) || (pid3 == 0 && pid != 0))
-        printf("Children to parent process\n");
+        printf("\t \t \tChildren to parent process\n");
     if(pid != 0 && pid3 != 0)
         printf("Parent Process\n");
     

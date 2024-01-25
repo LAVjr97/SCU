@@ -6,9 +6,8 @@
 #include <errno.h>
 
 
-int main(int argc, char *argv[]){
+int main(){
     pid_t pid;
-    int i, n = atoi(argv[1]); 
     printf("\nBefore forking.\n");
     pid = fork();
     if(pid == -1)
