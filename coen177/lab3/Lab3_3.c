@@ -1,27 +1,44 @@
 /**************************
-*       COEN177: Threads  *
+*   Lab3 - pipe()
 **************************/
 #include <stdio.h>
-#include <stdlib.h>
-#include <pthread.h>
+#include <unistd.h>
+#include <stdlib.h> 
+#include <string.h>
+#include <sys/wait.h> 
 
-void *go(void *);
-#define NTHREADS 10
-pthread_t threads[NTHREADS];
-int main() {
-    int i;
-    for (i = 0; i < NTHREADS; i++)  
-        pthread_create(&threads[i], NULL, go, &i);
-    for (i = 0; i < NTHREADS; i++) {
-	printf("Thread %d returned\n", i);
-        pthread_join(threads[i],NULL);
+// main
+int main(int argc,char *argv[]){
+   int  fds[2];
+   char buff[60];
+   int count;
+   int i;
+   pipe(fds);
+   
+   if (fork()==0){
+       printf("\nWriter on the upstream end of the pipe -> %d arguments \n",argc);
+       close(fds[0]);
+       dup2(fds[1], 1);
+       execlp("ls", "ls", 0);
+       exit(0);
+   }
+   else if(fork()==0){
+       printf("\nReader on the downstream end of the pipe \n");
+       close(fds[1]);
+       while((count=read(fds[0],buff,60))>0){
+           for(i=0;i<count;i++){
+               write(1,buff+i,1);
+               write(1," ",1);
+           }
+           printf("\n");
+       }
+       exit(0);
     }
-    printf("Main thread done.\n");
-    return 0;
+   else{     
+      close(fds[0]);
+      close(fds[1]);
+      wait(0);
+      wait(0);
+   }
+return 0;
 }
-void *go(void *arg) {
- printf("Hello from thread %d with iteration %d\n",  (int)pthread_self(), *(int *)arg);
- return 0;
-}
-
-

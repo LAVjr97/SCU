@@ -1,3 +1,9 @@
+// Name: Luis Villalta
+// Date: 1/23/24
+// Title: Lab 2: Step 1
+// Description: Creates parent and child processes and haves them run simultaneously 
+
+
 
 #include <stdio.h>
 #include <sys/types.h>

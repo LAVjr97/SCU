@@ -1,0 +1,7 @@
+// Name: Luis Villalta
+// Date: 1/23/24
+// Title: Lab 2
+
+Step 4: When there's a delay of 500, the program runs quicker than when the delay is set to 5000.
+Step 5: This was definetely challenging since trying to figure out an effiecent way of writing 
+        out the children and which parent process they belonged to was difficult. 

@@ -1,3 +1,7 @@
+// Name: Luis Villalta
+// Date: 1/23/24
+// Title: Lab 2: Step 7
+// Description: This program writes to the command line using the child process and exits using the parent. 
 
 #include <stdio.h>
 #include <sys/types.h>

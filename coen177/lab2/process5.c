@@ -1,3 +1,8 @@
+// Name: Luis Villalta
+// Date: 1/23/24
+// Title: Lab 2: Step 5
+// Description: creates a tree of processes, with the parent and children having a maximum of 2 more children or 0
+
 #include <stdio.h>
 #include <sys/types.h>
 #include <unistd.h>
