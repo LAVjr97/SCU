@@ -19,29 +19,24 @@ int main(int argc,char *argv[]){
    if (fork()==0){
        printf("\nWriter on the upstream end of the pipe -> %d arguments \n",argc);
        close(fds[0]);
-       while(j > 0){
-        //printf("First child \n");
-        for(;i<10;i++){
-           write(fds[1],buffer[i],strlen(buffer[i]));
-        }
-        j++;
-       }
+       printf("Message to be sent by producer: \n");
+       scanf("%d", &buffer);
+       write(fds[1],buffer[i],strlen(buffer[i]));
+       
        exit(0);
    }
    else if(fork()==0){
        printf("\nReader on the downstream end of the pipe \n");
        close(fds[1]);
-       while((count=read(fds[0],buff,10))>0){
-            printf("Second child \n");
+       printf("Message recieved by consumer:")
 
-           for(i=0;i<count;i++){
-               write(1,buff+i,1);
-               //write(1," ",1);
-           }
-           printf("\n");
+       while((count=read(fds[0],buff,10))>0){
+         write(1,buff+i,1);
+         printf("\n");
        }
        exit(0);
     }
+    
    else{     
       close(fds[0]);
       close(fds[1]);
