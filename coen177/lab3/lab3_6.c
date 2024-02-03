@@ -1,6 +1,10 @@
-/**************************
-*       COEN177: Threads  *
-**************************/
+// Name: Luis Villalta
+// Date: 2/3/24
+// Title: Lab 3: Step 4
+// Description: Creates a two processes to handle a system call " cat /etc/passwd" and passing it through a pipe to
+//              the other process that handles another system call "grep root" 
+//              handles the response and formats it with spaces in between each character. 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>

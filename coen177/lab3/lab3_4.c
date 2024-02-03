@@ -1,6 +1,10 @@
-/**************************
-*   Lab3 - pipe()
-**************************/
+// Name: Luis Villalta
+// Date: 2/3/24
+// Title: Lab 3: Step 4
+// Description: Creates two processes to handle a system call " cat /etc/passwd" and passing it through a pipe to
+//              the other process that handles another system call "grep root" 
+//              handles the response and formats it with spaces in between each character. 
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h> 
@@ -27,7 +31,7 @@ int main(int argc,char *argv[]){
        dup2(fds[0], 0);
 		 close(fds[0]);
        execlp("grep", "grep", "root", NULL);
-
+      
        exit(0);
     }
 

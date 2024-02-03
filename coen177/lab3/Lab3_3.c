@@ -1,11 +1,8 @@
-/**************************
-*   Lab3 - pipe()
-**************************/
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h> 
-#include <string.h>
-#include <sys/wait.h> 
+// Name: Luis Villalta
+// Date: 2/3/24
+// Title: Lab 3: Step 3
+// Description: Creates two processes to handle executing an "ls" system call passing the output through a pipe
+//               while the other process handles the response and formats it with spaces in between each character. 
 
 // main
 int main(int argc,char *argv[]){
@@ -18,8 +15,8 @@ int main(int argc,char *argv[]){
    if (fork()==0){
        printf("\nWriter on the upstream end of the pipe -> %d arguments \n",argc);
        close(fds[0]);
-       dup2(fds[1], 1);
-       execlp("ls", "ls", 0);
+       dup2(fds[1], 1); //duplicates the memory  
+       execlp("ls", "ls", 0); 
        exit(0);
    }
    else if(fork()==0){
