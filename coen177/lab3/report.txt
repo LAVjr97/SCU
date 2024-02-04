@@ -1,0 +1,10 @@
+// Name: Luis Villalta
+// Date: 2/3/24
+// Title: Lab 3 Report
+
+Step 6: The program outputs the line from the function go multiple times with
+        the same numbered iteration, with all of them having 0 as it's iteration. The 
+        reason this happens is because when pthread_create is called, it passes i's
+        address, and since threads used shared memory, when the first thread reaches the
+        next for loop, i is set to 0 again, so the most recent value of i is printed out 
+        in the go funtion which is 0. 
