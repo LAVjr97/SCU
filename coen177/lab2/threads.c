@@ -21,7 +21,7 @@ void thread(int n){
 
 int main(int argc, char *argv[]){
     pthread_t thread_id;
-    int i, n = atoi(argv[1]); 
+    int i, n = atoi(argv[1]);
     printf("\nBefore threading.\n");
     int code = pthread_create(&thread_id, NULL, &thread, n); 
 

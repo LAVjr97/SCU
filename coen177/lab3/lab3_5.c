@@ -20,12 +20,12 @@ int main(int argc,char *argv[]){
    int i = 0, j, size;
    pipe(fds);
    
-   if (fork()==0){
-       close(fds[0]);
-       printf("Message sent by producer: \n");
-       scanf("%s", buffer);
+   if (fork()==0){ 
+       close(fds[0]); 
+       printf("Message sent by producer: \n"); 
+       scanf("%s", buffer); 
        write(fds[1], buffer, strlen(buffer)); 
-       exit(0);
+       exit(0); 
     }
    else if(fork()==0){
        close(fds[1]);
