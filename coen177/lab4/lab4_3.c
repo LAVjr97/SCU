@@ -1,6 +1,9 @@
-// Name: Luis Villalta
-// Date: 2/10/24
-// Title: Lab 4 Matrix Multiplication Using Threads
+/*  Name: Luis Villalta
+    Date: 2/10/24
+    Title: Lab 4 Matrix Multiplication Using Threads
+    Description: This program does Matrix multiplication
+*/
+
 
 #include <stdio.h>
 #include <stdlib.h>
