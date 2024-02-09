@@ -1,3 +1,7 @@
+// Name: Luis Villalta
+// Date: 2/10/24
+// Title: Lab 4 Matrix Multiplication Using Threads
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -12,11 +16,12 @@ double matrixA[N][M];
 double matrixB[M][L];
 double matrixC[N][L];
 
+
 void *calculateMatrixC(void *t){
     double temp; 
     int i = (int)(intptr_t)t, j, k;
 
-    printf("\nThread's doing their work, %d\n", i);
+    printf("\nThread, %d, doing its work\n", i);
     for (j = 0; j < L; j++){
         temp = 0;
         for (k = 0; k < M; k++){
@@ -31,9 +36,8 @@ void *calculateMatrixC(void *t){
 void printMatrix(int row, int col, double matrix[row][col]){
     int i, j;
     for(i = 0; i < row; i++){
-        for(j = 0; j < col; j++){
-                printf("%0.2f ", matrix[i][j]);
-        }
+        for(j = 0; j < col; j++)
+                printf("%0.1f ", matrix[i][j]);
         printf("\n");
     }
     printf("\n\n");
@@ -63,7 +67,7 @@ int main(){
         pthread_join(thread_id[i], NULL);
     
 
-    printf("All threads joined\n");
+    printf("All threads joined\n\n");
     printMatrix(N, M, matrixA);
     printMatrix(M, L, matrixB);
     printMatrix(N, L, matrixC);
