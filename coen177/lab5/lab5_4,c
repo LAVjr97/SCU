@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <pthread.h> 
+#include <semaphore.h>
+
+
+pthread_t threads[2];
+sem_t *mutex;
+char buffer[50];
+
+void producer(){
+    int i;
+    char buff[50];
+
+    do{
+        printf("Give something to the producer \n");
+        scanf("%s", buff);
+        //wait empty
+        //wait mutex
+
+        for(i = 0; i < 10; i++);
+            buffer[i] = i;
+
+    } while(1);
+}
+
+void consumer(){
+    do{
+        
+    } while(1);
+}
+
+int main(){
+    mutex = sem_open("mutex", O_CREAT, 0644, 1);
+    
+    //producer
+    pthread_create(&threads[0], NULL, producer, (void *)(size_t)i);
+    //consumer
+    pthread_create(&threads[1], NULL, consumer, (void *)(size_t)i);
+    
+    for (i = 0; i < 2; i++) {
+        pthread_join(threads[i],NULL);
+    }
+    sem_unlink("mutex"); 
+    return 0;
+}
