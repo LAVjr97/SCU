@@ -1,7 +1,9 @@
 /*  Name: Luis Villalta
     Date: 2/10/24
     Title: Lab 4 Matrix Multiplication Using Threads
-    Description: This program does Matrix multiplication
+    Description: This program does Matrix multiplication using threads. Specifically, every row in MatrixC is
+                 assigned as a job to a thread. Which all the threads then join before printing out the rsulting 
+                 matrix. 
 */
 
 
@@ -49,7 +51,8 @@ void printMatrix(int row, int col, double matrix[row][col]){
 
 int main(){
     pthread_t thread_id[N];
-    int i, j;
+    static int i; 
+    int j;
 
     //initializes the values for matrix A & B
     srand(time(NULL));

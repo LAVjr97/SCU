@@ -1,6 +1,6 @@
 // Name: Luis Villalta
 // Date: 2/10/24
-// Title: Lab 4 Thread Hello W/ Missing 2nd For Loop
+// Title: Lab 4 Thread Hello Missing 2nd For Loop
 
 /**************************************************************
 *	threadHello.c - simple multi-threaded program.            *
@@ -17,11 +17,9 @@ pthread_t threads[NTHREADS];
 
 int main() {
     static int i;
-    for (i = 0; i < NTHREADS; i++)  
+    for (i = 0; i < NTHREADS; i++){
         pthread_create(&threads[i], NULL, go, &i);
-    pthread_join(threads[i],NULL);
-	printf("Thread %d returned \n", i);
-    
+    }
     printf("Main thread done.\n");
 }
 

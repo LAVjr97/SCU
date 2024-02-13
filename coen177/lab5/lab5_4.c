@@ -12,64 +12,64 @@
 #include <stdlib.h>
 
 pthread_t threads[10];
-sem_t *mutex, *full, *empty;
-int buffer[10], fu = 0, emp = 0;
+pthread_mutex_t mutex;
+pthread_cond_t full, empty;
+int buffer[10], fu = 0, emp = 0, buff = 0;
 
-void *producer(void *t){
+void *producer(){
     int item;
     do{
         item = rand() % 10;
-        sem_wait(empty);
-        sem_wait(mutex);
+        pthread_mutex_lock(&mutex);
+        while(buff == 10)
+            pthread_cond_wait(&empty, &mutex);
         buffer[fu] = item;
         fu = (fu + 1) % 10;
+        buff++;
         printf("Item added was %d \n", item);
-        sem_post(mutex);
-        sem_post(full);
+        pthread_cond_signal(&full);
+        pthread_mutex_unlock(&mutex);
     } while(1);
 }
 
-void *consumer(void *t){
+void *consumer(){
     int item;
     do{
-        sem_wait(full);
-        sem_wait(mutex);
+        pthread_mutex_lock(&mutex);
+        while(buff == 0)
+            pthread_cond_wait(&full, &mutex);
         item = buffer[emp];
-        //buffer[emp] = 0;
+        buffer[emp] = '\0';
         emp = (emp + 1) % 10;
+        buff--;
         printf("Item removed was %d \n", item);
-        sem_post(mutex);
-        sem_post(empty);
+        pthread_cond_signal(&empty);
+        pthread_mutex_unlock(&mutex);
     } while(1);
 }
 
 int main(){
     pthread_t threads[10];
     int i;
-     sem_unlink("mutex"); 
-    sem_unlink("full"); 
-    sem_unlink("empty"); 
 
-    mutex = sem_open("mutex", O_CREAT, 0644, 1);
-    full = sem_open("full", O_CREAT, 0644, 0);
-    empty = sem_open("empty", O_CREAT, 0644, 5);
+    pthread_mutex_init(&mutex, NULL);
+    pthread_cond_wait(&full, &mutex);
+    pthread_cond_wait(&empty, &mutex);
+
     srand(time(NULL));
-    printf("Here before \n");
     //producer threads
     for(i = 0; i < 5; i++)
-        pthread_create(&threads[i], NULL, producer, (void*)(intptr_t)i);
-    printf("Here after 1 \n");
+        pthread_create(&threads[i], NULL, producer, NULL);
+
     //consumer threads
     for(i = 5; i < 10; i++)
-        pthread_create(&threads[i], NULL, consumer, (void*)(intptr_t)i);
-    printf("Here after 2 \n");
-
+        pthread_create(&threads[i], NULL, consumer, NULL); 
     
     for (i = 0; i < 10; i++)
         pthread_join(threads[i],NULL);
     
-    sem_unlink("mutex"); 
-    sem_unlink("full"); 
-    sem_unlink("empty"); 
+    pthread_mutex_destroy(&mutex);
+    pthread_cond_destroy(&full);
+    pthread_cond_destroy(&empty);
     return 0;
 }

@@ -2,7 +2,14 @@
 // Date: 2/10/24
 // Title: Lab 4 Report
 
-Step 1: 
+Step 1: When threadshello.c runs, each thread runs the go function once, and joins the main thread once it returns from
+        the go function. And the order of which thread is being executed and returns changes everytime that the program
+        is re-run. When running the program however while watching a video, listening to music and playing a game at the 
+        same time, I would see that about half of the time, it would say "Hello from thread 0" for all of the threads. The 
+        argument recieved in the go function are per-thread since each thread will have it's own pointer that points to the
+        i in the main function. The 'i' in the main function is also a per thread variable which are then stored in each 
+        thread's stack.
 
-Step 2: 
+Step 2: When the second for loop is deleted, the "Hello from thread" lines are still printing however when returning to 
+        the main function, "Main thread done" prints once.
 
