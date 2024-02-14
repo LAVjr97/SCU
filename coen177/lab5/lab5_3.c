@@ -18,6 +18,7 @@ int buffer[10], fu = 0, emp = 0;
 void *producer(void *t){
     int item;
     do{
+        sleep(1);
         item = rand() % 10;
         sem_wait(empty);
         sem_wait(mutex);
@@ -46,7 +47,7 @@ void *consumer(void *t){
 int main(){
     pthread_t threads[10];
     int i;
-     sem_unlink("mutex"); 
+    sem_unlink("mutex"); 
     sem_unlink("full"); 
     sem_unlink("empty"); 
 

@@ -16,7 +16,7 @@ pthread_mutex_t mutex;
 pthread_cond_t full, empty;
 int buffer[10], fu = 0, emp = 0, buff = 0;
 
-void *producer(){
+void *producer(void *t){
     int item;
     do{
         item = rand() % 10;
@@ -32,14 +32,14 @@ void *producer(){
     } while(1);
 }
 
-void *consumer(){
+void *consumer(void *t){
     int item;
     do{
         pthread_mutex_lock(&mutex);
         while(buff == 0)
             pthread_cond_wait(&full, &mutex);
         item = buffer[emp];
-        buffer[emp] = '\0';
+        buffer[emp] = 0;
         emp = (emp + 1) % 10;
         buff--;
         printf("Item removed was %d \n", item);
@@ -59,11 +59,11 @@ int main(){
     srand(time(NULL));
     //producer threads
     for(i = 0; i < 5; i++)
-        pthread_create(&threads[i], NULL, producer, NULL);
+        pthread_create(&threads[i], NULL, producer, (void*)(intptr_t)i);
 
     //consumer threads
     for(i = 5; i < 10; i++)
-        pthread_create(&threads[i], NULL, consumer, NULL); 
+        pthread_create(&threads[i], NULL, consumer, (void*)(intptr_t)i); 
     
     for (i = 0; i < 10; i++)
         pthread_join(threads[i],NULL);
