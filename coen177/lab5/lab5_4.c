@@ -21,7 +21,7 @@ void *producer(void *t){
     do{
         item = rand() % 10;
         pthread_mutex_lock(&mutex);
-        while(buff == 10)
+        while(buff == 10) 
             pthread_cond_wait(&empty, &mutex);
         buffer[fu] = item;
         fu = (fu + 1) % 10;
