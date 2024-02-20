@@ -1,9 +1,9 @@
-//Shared data: semaphore full, empty, mutex;
-//pool of n buffers, each can hold one item
-//mutex provides mutual exclusion to the buffer pool
-//empty and full count the number of empty and full buffers
-//Initially: full = 0, empty = n, mutex = 1
-//Producer thread 
+// Name: Luis Villalta
+// Date: 2/17/24
+// Title: Lab 5 Synchronization Using Semaphores
+// Description: This program uses semphores to synchronizes threads, where 5 threads are producers that fill up a 
+//              buffer until its full, then posts "full" so the consumer knows to begin to remove items from the
+//              buffer until  its empty, then posts "empty" so the producer knows to begin to add items.              
 
 #include <stdio.h>
 #include <unistd.h>
@@ -55,22 +55,20 @@ int main(){
     full = sem_open("full", O_CREAT, 0644, 0);
     empty = sem_open("empty", O_CREAT, 0644, 5);
     srand(time(NULL));
-    printf("Here before \n");
+
     //producer threads
     for(i = 0; i < 5; i++)
-        pthread_create(&threads[i], NULL, producer, (void*)(intptr_t)i);
-    printf("Here after 1 \n");
+        pthread_create(&threads[i], NULL, producer, (void*)(intptr_t)i); 
     //consumer threads
     for(i = 5; i < 10; i++)
-        pthread_create(&threads[i], NULL, consumer, (void*)(intptr_t)i);
-    printf("Here after 2 \n");
-
+        pthread_create(&threads[i], NULL, consumer, (void*)(intptr_t)i); 
+    printf("Here after 2 \n"); 
     
-    for (i = 0; i < 10; i++)
-        pthread_join(threads[i],NULL);
+    for (i = 0; i < 10; i++) 
+        pthread_join(threads[i],NULL); 
     
     sem_unlink("mutex"); 
     sem_unlink("full"); 
     sem_unlink("empty"); 
-    return 0;
+    return 0; 
 }

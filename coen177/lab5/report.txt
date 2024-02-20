@@ -1,0 +1,9 @@
+// Name: Luis Villalta
+// Date: 2/17/24
+// Title: Lab 5 Report
+
+// Observations: I just found it interesting that for both step 3 and 4 that after the intial round of producers adding
+                 adding to the buffers, that the threads would begin to produce/consumer at different intervals, where normally
+                 the producer would add 5 or 10 items and the consumer would remove 5 or 10 items respectively. It would then
+                 change to the producer only adding 2 items at a time before the consumer would remove 2 items at a time as 
+                 well. 

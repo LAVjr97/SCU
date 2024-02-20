@@ -1,12 +1,8 @@
-// Thread Sychronization
-//To compile this code:
-//If using the SCU Linux lab first add #include<fcntl.h>
-//Then you're ready to compile.
-//To compile just add -lpthread to your gcc command like:
-//gcc threadSync.c -lpthread
-//gcc threadSync.c -o test -lpthread
-
-
+// Name: Luis Villalta
+// Date: 2/17/24
+// Title: Lab 5 Synchronization Using Mutex Locks
+// Description: This program uses mutex locks to synchronize its threads. 
+            
 #include <stdio.h>
 #include <unistd.h>
 #include <pthread.h> 
