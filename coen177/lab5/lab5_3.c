@@ -62,7 +62,6 @@ int main(){
     //consumer threads
     for(i = 5; i < 10; i++)
         pthread_create(&threads[i], NULL, consumer, (void*)(intptr_t)i); 
-    printf("Here after 2 \n"); 
     
     for (i = 0; i < 10; i++) 
         pthread_join(threads[i],NULL); 

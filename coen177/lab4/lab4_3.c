@@ -13,9 +13,9 @@
 #include <time.h>
 #include <pthread.h>
 
-#define N 4
-#define M 3
-#define L 2
+#define N 400
+#define M 300
+#define L 200
 
 double matrixA[N][M];
 double matrixB[M][L];

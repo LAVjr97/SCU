@@ -1,0 +1,24 @@
+// Name: Luis Villalta
+// Date: 2/24/24
+// Title: Lab 6 Minix operating system
+
+Steps:
+
+First, look up "NoMachine scu" on google to find the proper link to install NoMachine on your computer. Once installed
+and configured, open up a terminal and type "set vmware", this command prepares vmware and only has to be done once everytime
+you first open it. Then type "minix-get-image", this only needs to be done once, since this ereases any previous instance of 
+minix and creates a fresh new one. So it should only be done again if the minix machine breaks. Then type "vmware &" to 
+launch it. Once launched, you should see the minix machine as an option. Once you launch the minix machine, you'll be asked 
+a username, which will be "root". In order to set a password, type "passwd" and enter your new password twice. Then to set up 
+ftp, so you can transfer fles between the minix machine and your local linux machine, type "tcpd ftp /usr/bin/in.ftpd &" on the
+minix machine. Then type "ifconfig" to see your ip address. It should be the first set of numbers. Then "ctrl + alt" to 
+return to your local linux machine, and open a new terminal and type "ftp <minix ip address>". Which after a while will
+ask for your minix machine's username and password. Once in, type "ls" to view the remote directory, and "cd" to change
+the remote directory, "lcd" to view the local directory, and "lcd <path to directory>" to change local directory. Use the commands
+"get <file name>" and "put <file name>" to get a file from the remote machine, and put to put a file in the remote machine. 
+So in order to change the copyright statement from the boot up message, type "cd usr/src/kernel", then "get main.c" and 
+then you should be able to edit the "announce()" function. Once edited and saved with the new message, type "put main.c".
+Now going back to your minix machine, if you weren't already in "/usr/src" go to that directory. Once there, type "make world"
+Once it has recompiled, type "reboot" and then you should see that the bootup message will have changed. 
+
+

@@ -4,7 +4,11 @@
 // Description: Creates two processes to handle executing an "ls" system call passing the output through a pipe
 //               while the other process handles the response and formats it with spaces in between each character. 
 
-// main
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h> 
+#include <string.h>
+#include <sys/wait.h> 
 int main(int argc,char *argv[]){
    int  fds[2];
    char buff[60];
