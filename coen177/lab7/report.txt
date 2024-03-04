@@ -1,6 +1,9 @@
 // Name: Luis Villalta
-// Date: 3/1/24
-// Title: Lab 7 Minix operating system
+// Date: 3/2/24
+// Title: Lab 7 Minix Scheduling
 
+Steps: Once in the Minix machine, "cd .." until you are in the root directory, then type  then type "cd usr/src/kernel". 
 
+Observations: Having changed the scheduler, the bootup process took much longer, and doing a normal system call 
+              such as "ls" would take significantly longer than before. 
 
