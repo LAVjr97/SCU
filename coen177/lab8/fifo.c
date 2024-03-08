@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h> 
+#include <stdbool.h>
 
 typedef struct {
     int pageno;
@@ -34,17 +35,18 @@ int main(int argc, char *argv[]){
         if (foundInCache == false){
             //You may print the page that caused the page fault
             cache[cache_i].pageno = page_num;
-            totalFaults++
+            totalFaults++;
             cache_i = (cache_i + 1) % CACHE_SIZE; //Need to keep the value within the cacheSize
             printf("%d ", page_num);
         }
     }
-    double hitRate = (totalRequests - totalFaults) / totalRequests;
-    printf("\n%d Total Requests \n%d Total Page Faults \n%d Hit Rate", totalRequests, totalFaults, hitRate);
+
+    double missRate = totalFaults / (double)totalRequests;
+    double hitRate = 1 - missRate;
+    printf("\n%d Total Requests \n%d Total Page Faults \n%0.3f Miss Rate \n%0.3f Hit Rate\n", totalRequests, totalFaults, missRate, hitRate);
     return 0;
 }
 
-//Cache Size 50
+//Cache Size 50 
 //FIFO: 9595
 //LRU: 9595
-//

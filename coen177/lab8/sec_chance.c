@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h> 
+#include <stdbool.h>
 
 typedef struct {
     int pageno;
@@ -40,7 +41,7 @@ int main(int argc, char *argv[]){
             for(i = cache_i; i < CACHE_SIZE - 1; i++){
                 if(cache[i].chance == 1){
                     cache[i].chance = 0; 
-                    cache_i;
+                    //cache_i;
                     if(cache_i == CACHE_SIZE - 1){
                         cache_i = 0;
                         i = 0; 
@@ -56,7 +57,8 @@ int main(int argc, char *argv[]){
         }
     }
 
-    double hitRate = (totalRequests - totalFaults) / totalRequests;
-    printf("\n%d Total Requests \n%d Total Page Faults \n%d Hit Rate", totalRequests, totalFaults, hitRate);
+    double missRate = totalFaults / (double)totalRequests;
+    double hitRate = 1 - missRate;
+    printf("\n%d Total Requests \n%d Total Page Faults \n%0.3f Miss Rate \n%0.3f Hit Rate\n", totalRequests, totalFaults, missRate, hitRate);
     return 0;
 }

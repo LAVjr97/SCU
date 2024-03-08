@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h> 
+#include <stdbool.h>
 
 typedef struct {
     int pageno;
@@ -13,7 +14,7 @@ int main(int argc, char *argv[]){
     ref_page cache[CACHE_SIZE]; // Cache that stores pages
     char pageCache[100]; // Cache that holds the input from test file
     int totalFaults = 0; // keeps track of the total page faults
-    int totalRequests = 0, i, cache_i, oldest;
+    int totalRequests = 0, i, j, cache_i, oldest;
     
     for (i = 0; i < CACHE_SIZE; i++){//initialise cache array
          cache[i].pageno = -1;
@@ -42,7 +43,7 @@ int main(int argc, char *argv[]){
             //You may print the page that caused the page fault
             cache[cache_i].pageno = page_num;
             cache[cache_i].age = 0;
-            totalFaults++
+            totalFaults++;
             for(i = 0; i < CACHE_SIZE - 1; i++) 
                 cache[i].age++;                //update age for all pages
                 if(oldest < cache[i].age){     //if there is an older page than oldest, update oldest and cache_i
@@ -55,7 +56,8 @@ int main(int argc, char *argv[]){
         }
     }
 
-    double hitRate = (totalRequests - totalFaults) / totalRequests;
-    printf("\n%d Total Requests \n%d Total Page Faults \n%d Hit Rate", totalRequests, totalFaults, hitRate);
+    double missRate = totalFaults / (double)totalRequests;
+    double hitRate = 1 - missRate;
+    printf("\n%d Total Requests \n%d Total Page Faults \n%0.3f Miss Rate \n%0.3f Hit Rate\n", totalRequests, totalFaults, missRate, hitRate);
     return 0;
 }
