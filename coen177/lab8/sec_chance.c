@@ -38,10 +38,12 @@ int main(int argc, char *argv[]){
         if (foundInCache == false){
             //You may print the page that caused the page fault
             totalFaults++;
+            printf("%d ", page_num);
+
             for(i = cache_i; i < CACHE_SIZE - 1; i++){
                 if(cache[i].chance == 1){
                     cache[i].chance = 0; 
-                    //cache_i;
+                    cache_i++;
                     if(cache_i == CACHE_SIZE - 1){
                         cache_i = 0;
                         i = 0; 
@@ -51,7 +53,7 @@ int main(int argc, char *argv[]){
                     cache[cache_i].pageno = page_num;
                     cache[cache_i].chance = 0; 
                     cache_i = (cache_i + 1) % CACHE_SIZE; //Need to keep the value within the cacheSize
-                    printf("%d ", page_num);
+                    break;
                 }
             }
         }
