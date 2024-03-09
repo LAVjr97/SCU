@@ -15,7 +15,7 @@ int main(int argc, char *argv[]){
     char pageCache[100]; // Cache that holds the input from test file
     int totalFaults = 0; // keeps track of the total page faults
     int totalRequests = 0;
-    int i, cache_i;
+    int i, cache_i = 0;
     
     for (i = 0; i < CACHE_SIZE; i++){//initialise cache array  
          cache[i].pageno = -1;
@@ -28,7 +28,7 @@ int main(int argc, char *argv[]){
     	bool foundInCache = false;
         totalRequests++;
 
-        for (i=0; i < CACHE_SIZE - 1; i++)
+        for (i=0; i < CACHE_SIZE; i++)
             if (cache[i].pageno == page_num){
                 foundInCache = true;
                 cache[i].chance = 1;
@@ -40,17 +40,17 @@ int main(int argc, char *argv[]){
             totalFaults++;
             printf("%d\n", page_num);
             while(cache[cache_i].chance != 0){
-                cache[cache_i].chance = 0; 
-                cache_i = (cache_i + 1) % CACHE_SIZE;
+                cache[cache_i].chance = 0; //update chance bits to 0 from 1
+                cache_i = (cache_i + 1) % CACHE_SIZE; 
             }
 
             cache[cache_i].pageno = page_num;
-            cache_i = (cache_i + 1) % CACHE_SIZE;
+            cache_i = (cache_i + 1) % CACHE_SIZE; //update cache index
         }
     }
 
-    //double missRate = totalFaults / (double)totalRequests;
-    //double hitRate = 1 - missRate;
+    double missRate = totalFaults / (double)totalRequests;
+    double hitRate = 1 - missRate;
     //printf("\n%d Total Requests \n%d Total Page Faults \n%0.3f Miss Rate \n%0.3f Hit Rate\n", totalRequests, totalFaults, missRate, hitRate);
     return 0;
 }

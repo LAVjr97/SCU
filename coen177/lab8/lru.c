@@ -49,8 +49,8 @@ int main(int argc, char *argv[]){
         }
     }
 
-    // double missRate = totalFaults / (double)totalRequests;
-    // double hitRate = 1 - missRate;
-    // printf("\n%d Total Requests \n%d Total Page Faults \n%0.3f Miss Rate \n%0.3f Hit Rate\n", totalRequests, totalFaults, missRate, hitRate);
+    double missRate = totalFaults / (double)totalRequests;
+    double hitRate = 1 - missRate;
+    //printf("\n%d Total Requests \n%d Total Page Faults \n%0.3f Miss Rate \n%0.3f Hit Rate\n", totalRequests, totalFaults, missRate, hitRate);
     return 0;
 }
