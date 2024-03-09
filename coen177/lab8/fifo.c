@@ -1,3 +1,8 @@
+// Name: Luis Villalta
+// Date: 3/10/24
+// Title: Lab 8 Memory Management
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -20,7 +25,6 @@ int main(int argc, char *argv[]){
          cache[i].pageno = -1;
     }
 
-    //printf("Page Number that was not found: ");
     while (fgets(pageCache, 100, stdin)){
     	int page_num = atoi(pageCache); // Stores number read from file as an int
     	bool foundInCache = false;
@@ -47,7 +51,3 @@ int main(int argc, char *argv[]){
     //printf("\n%d Total Requests \n%d Total Page Faults \n%0.3f Miss Rate \n%0.3f Hit Rate\n", totalRequests, totalFaults, missRate, hitRate);
     return 0;
 }
-
-//Cache Size 50 
-//FIFO: 9595
-//LRU: 9595

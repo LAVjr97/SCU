@@ -1,3 +1,8 @@
+// Name: Luis Villalta
+// Date: 3/10/24
+// Title: Lab 8 Memory Management
+// Description: 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -21,7 +26,6 @@ int main(int argc, char *argv[]){
          cache[i].age = 0;
     }
 
-    //printf("Page Number that was not found: ");
     while (fgets(pageCache, 100, stdin)){
     	int page_num = atoi(pageCache); // Stores number read from file as an int
     	bool foundInCache = false;
@@ -41,9 +45,8 @@ int main(int argc, char *argv[]){
         }   
 
         if (foundInCache == false){
-            //You may print the page that caused the page fault
-            cache[oldest_i].pageno = page_num;
-            cache[oldest_i].age = 0;
+            cache[oldest_i].pageno = page_num; //insert page number at oldest
+            cache[oldest_i].age = 0; //set age to 0
             totalFaults++;
             printf("%d\n", page_num);
         }

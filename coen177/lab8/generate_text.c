@@ -1,3 +1,8 @@
+// Name: Luis Villalta
+// Date: 3/10/24
+// Title: Lab 8 Memory Management
+// Description: 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
