@@ -38,7 +38,6 @@ int main(int argc, char *argv[]){
         
         if (foundInCache == false){
             printf("%d\n", page_num);
-            //You may print the page that caused the page fault
             cache[cache_i].pageno = page_num;
             totalFaults++;
             

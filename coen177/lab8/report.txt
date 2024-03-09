@@ -1,3 +1,166 @@
 // Name: Luis Villalta
 // Date: 3/8/24
 // Title: Lab 8 
+
+----------FIFO----------
+7
+9
+3
+8
+0
+2
+4
+5
+6
+1
+----------End FIFO----------
+
+----------LRU----------
+7
+9
+3
+8
+0
+2
+4
+5
+6
+1
+----------End LRU----------
+
+----------Second Chance----------
+7
+9
+3
+8
+0
+2
+4
+5
+6
+1
+----------End Second Chance----------
+FIFO 10K Test with cache size = 10, 50, 100, 250, 500
+    9916
+    9515
+    9018
+    7534
+    5130
+
+LRU 10K Test with cache size = 10, 50, 100, 250, 500
+    9915
+    9510
+    9029
+    7532
+    5206
+
+Second Chance 10K Test with cache size = 10, 50, 100, 250, 500
+    9915
+    9510
+    9022
+    7526
+    5178
+***********************************************************************************
+----------FIFO----------
+
+50 Total Requests 
+10 Total Page Faults 
+0.200 Miss Rate 
+0.800 Hit Rate
+----------End FIFO----------
+
+----------LRU----------
+
+50 Total Requests 
+10 Total Page Faults 
+0.200 Miss Rate 
+0.800 Hit Rate
+----------End LRU----------
+
+----------Second Chance----------
+
+50 Total Requests 
+10 Total Page Faults 
+0.200 Miss Rate 
+0.800 Hit Rate
+----------End Second Chance----------
+FIFO 10K Test with cache size = 10, 50, 100, 250, 500
+
+10000 Total Requests 
+9916 Total Page Faults 
+0.992 Miss Rate 
+0.008 Hit Rate
+
+10000 Total Requests 
+9515 Total Page Faults 
+0.952 Miss Rate 
+0.048 Hit Rate
+
+10000 Total Requests 
+9018 Total Page Faults 
+0.902 Miss Rate 
+0.098 Hit Rate
+
+10000 Total Requests 
+7534 Total Page Faults 
+0.753 Miss Rate 
+0.247 Hit Rate
+
+10000 Total Requests 
+5130 Total Page Faults 
+0.513 Miss Rate 
+0.487 Hit Rate
+
+LRU 10K Test with cache size = 10, 50, 100, 250, 500
+
+10000 Total Requests 
+9915 Total Page Faults 
+0.992 Miss Rate 
+0.008 Hit Rate
+
+10000 Total Requests 
+9510 Total Page Faults 
+0.951 Miss Rate 
+0.049 Hit Rate
+
+10000 Total Requests 
+9029 Total Page Faults 
+0.903 Miss Rate 
+0.097 Hit Rate
+
+10000 Total Requests 
+7532 Total Page Faults 
+0.753 Miss Rate 
+0.247 Hit Rate
+
+10000 Total Requests 
+5206 Total Page Faults 
+0.521 Miss Rate 
+0.479 Hit Rate
+
+Second Chance 10K Test with cache size = 10, 50, 100, 250, 500
+
+10000 Total Requests 
+9915 Total Page Faults 
+0.992 Miss Rate 
+0.008 Hit Rate
+
+10000 Total Requests 
+9510 Total Page Faults 
+0.951 Miss Rate 
+0.049 Hit Rate
+
+10000 Total Requests 
+9022 Total Page Faults 
+0.902 Miss Rate 
+0.098 Hit Rate
+
+10000 Total Requests 
+7526 Total Page Faults 
+0.753 Miss Rate 
+0.247 Hit Rate
+
+10000 Total Requests 
+5178 Total Page Faults 
+0.518 Miss Rate 
+0.482 Hit Rate
