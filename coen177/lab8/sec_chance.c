@@ -39,28 +39,13 @@ int main(int argc, char *argv[]){
             //You may print the page that caused the page fault
             totalFaults++;
             printf("%d\n", page_num);
-            i = 0;
-            while(cache[i].chance != 0){
-                cache[i].chance = 0; 
-                i = 
+            while(cache[cache_i].chance != 0){
+                cache[cache_i].chance = 0; 
+                cache_i = (cache_i + 1) % CACHE_SIZE;
             }
-            
-            for(i = cache_i; i < CACHE_SIZE; i++){
-                if(cache[i].chance == 1){
-                    cache[i].chance = 0; 
-                    cache_i++;
-                    if(cache_i == CACHE_SIZE){
-                        cache_i = 0;
-                        i = 0; 
-                    }
-                }
-                else{
-                    cache[cache_i].pageno = page_num;
-                    cache[cache_i].chance = 0; 
-                    cache_i = (cache_i + 1) % CACHE_SIZE; //Need to keep the value within the cacheSize
-                    break;
-                }
-            }
+
+            cache[cache_i].pageno = page_num;
+            cache_i = (cache_i + 1) % CACHE_SIZE;
         }
     }
 
