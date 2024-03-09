@@ -14,30 +14,31 @@ int main(int argc, char *argv[]){
     char pageCache[100]; // Cache that holds the input from test file
     int totalFaults = 0; // keeps track of the total page faults
     int totalRequests = 0;
-    int i, cache_i;
+    int i, cache_i=0;
     
     for (i = 0; i < CACHE_SIZE; i++){//initialise cache array  
          cache[i].pageno = -1;
     }
 
-    printf("Page Number that was not found: ");
+    //printf("Page Number that was not found: ");
     while (fgets(pageCache, 100, stdin)){
     	int page_num = atoi(pageCache); // Stores number read from file as an int
     	bool foundInCache = false;
         totalRequests++;
 
-        for (i=0; i < CACHE_SIZE - 1; i++)
+        for (i=0; i < CACHE_SIZE; i++)
             if (cache[i].pageno == page_num){
                 foundInCache = true;
                 break; //break out loop because found page_num in cache
             }
         
         if (foundInCache == false){
+            printf("%d\n", page_num);
             //You may print the page that caused the page fault
             cache[cache_i].pageno = page_num;
             totalFaults++;
+            
             cache_i = (cache_i + 1) % CACHE_SIZE; //Need to keep the value within the cacheSize
-            printf("%d ", page_num);
         }
     }
 

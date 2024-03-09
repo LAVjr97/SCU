@@ -22,7 +22,7 @@ int main(int argc, char *argv[]){
          cache[i].chance = 0;
     }
 
-    printf("Page Number that was not found: ");
+    //printf("Page Number that was not found: ");
     while (fgets(pageCache, 100, stdin)){
     	int page_num = atoi(pageCache); // Stores number read from file as an int
     	bool foundInCache = false;
@@ -38,13 +38,18 @@ int main(int argc, char *argv[]){
         if (foundInCache == false){
             //You may print the page that caused the page fault
             totalFaults++;
-            printf("%d ", page_num);
-
-            for(i = cache_i; i < CACHE_SIZE - 1; i++){
+            printf("%d\n", page_num);
+            i = 0;
+            while(cache[i].chance != 0){
+                cache[i].chance = 0; 
+                i = 
+            }
+            
+            for(i = cache_i; i < CACHE_SIZE; i++){
                 if(cache[i].chance == 1){
                     cache[i].chance = 0; 
                     cache_i++;
-                    if(cache_i == CACHE_SIZE - 1){
+                    if(cache_i == CACHE_SIZE){
                         cache_i = 0;
                         i = 0; 
                     }
@@ -59,8 +64,8 @@ int main(int argc, char *argv[]){
         }
     }
 
-    double missRate = totalFaults / (double)totalRequests;
-    double hitRate = 1 - missRate;
-    printf("\n%d Total Requests \n%d Total Page Faults \n%0.3f Miss Rate \n%0.3f Hit Rate\n", totalRequests, totalFaults, missRate, hitRate);
+    //double missRate = totalFaults / (double)totalRequests;
+    //double hitRate = 1 - missRate;
+    //printf("\n%d Total Requests \n%d Total Page Faults \n%0.3f Miss Rate \n%0.3f Hit Rate\n", totalRequests, totalFaults, missRate, hitRate);
     return 0;
 }
