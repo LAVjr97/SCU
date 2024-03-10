@@ -10,7 +10,7 @@ int main(int argc, char *argv[]){
     fp = fopen(argv[1], "rb");
     rp = fopen("step4Results.txt", "wb");
     while (fread(buffer, sizeof(buffer), 1, fp))
-        fwrite(buffer, sizeof(buffer), 1, fp);
+        fwrite(buffer, sizeof(buffer), 1, rp);
     fclose(fp);    
     fclose(rp);
     return 0;

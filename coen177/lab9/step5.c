@@ -4,23 +4,23 @@
 #include <unistd.h> 
 #include <pthread.h>
 
-typedef struct
-{
-    char
+typedef struct{
+    char **args;
 }info;
-
 
 void *go(void *);
 
-
 int main(int argc, char *argv[]){
-    char buffer[atoi(argv[2])];
     int i, NTHREADS = atoi(argv[3]);
     pthread_t threads[NTHREADS];
 
-    for (i = 0; i < NTHREADS; i++)  
-        pthread_create(&threads[i], NULL, go, &i);
-    
+    //initialize struct
+    info arg;
+    arg.args = argv;
+
+    for (i = 0; i < NTHREADS; i++)
+        pthread_create(&threads[i], NULL, go, &arg);
+
     for (i = 0; i < NTHREADS; i++)
         pthread_join(threads[i],NULL);
 
@@ -28,12 +28,20 @@ int main(int argc, char *argv[]){
 }
 
 void *go(void *arg){
+    info* threadarg = (info *)arg;
+    int buffSize = atoi((*threadarg).args[2]), nThread = atoi((*threadarg).args[3]);
+    char buffer[buffSize];
+    char *fname = (*threadarg).args[1];
+
+    char newF[30];
+    sprintf(newF, "%d_%d_%s", buffSize, nThread, fname);
+
     FILE *fp, *rp;
-    fp = fopen(argv[1], "rb");
-    rp = fopen("step4Results.txt", "wb");
-    
+    fp = fopen(fname, "rb");
+    rp = fopen(newF, "wb");
+
     while (fread(buffer, sizeof(buffer), 1, fp))
-        fwrite(buffer, sizeof(buffer), 1, fp);
+        fwrite(buffer, sizeof(buffer), 1, rp);
     
     fclose(fp);
     fclose(rp);
