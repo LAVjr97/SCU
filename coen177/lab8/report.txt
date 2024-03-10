@@ -2,6 +2,39 @@
 // Date: 3/8/24
 // Title: Lab 8 
 
+Implementations: 
+FIFO: I used a variable called cache_i to keep track of the index of where in the array the first 
+      page was inserted. So when there is a miss in the cache, that first page can be quickly replaced
+      by the current pagenumber given by the testinput file and cache_i can be updated to the next 
+      slot in the array, and if cache_i reaches the end of the array, it will wrap around back to index 0.
+
+LRU: I added a variabol called age in the struct to keep track of every page entry's age, which got updated
+     to 0 if there was a hit for a page number in the cache, but while searching for the hit, I also checked 
+     to find an age that was older than the oldest age in the previous search or a previous entry in that same search
+     and save the age and the index where it was found using oldest_i. If there was a miss, than the page numnber
+     is inserted where the oldest page number was, and it's age is set to 0.
+
+SC: I added a chance variable in the struct that would hold a page entry's chance bit. And if there was hit for a
+    page nuumber in the cache, then that page's chance bit is changed to 1. While 
+
+**Sample Miss and Hit Results For testInput.txt with 50 page numbers and a cache size of 10:** 
+----------FIFO----------
+10 Total Page Faults 
+0.200 Miss Rate 
+0.800 Hit Rate
+
+----------LRU----------
+10 Total Page Faults 
+0.200 Miss Rate 
+0.800 Hit Rate
+
+----------Second Chance----------
+10 Total Page Faults 
+0.200 Miss Rate 
+0.800 Hit Rate
+
+----------------
+**Page Faults:**
 ----------FIFO----------
 7
 9
@@ -40,127 +73,69 @@
 6
 1
 ----------End Second Chance----------
+
+**Sample Miss and Hit Results For testInput10k.txt:**
 FIFO 10K Test with cache size = 10, 50, 100, 250, 500
-    9916
-    9515
-    9018
-    7534
-    5130
-
-LRU 10K Test with cache size = 10, 50, 100, 250, 500
-    9915
-    9510
-    9029
-    7532
-    5206
-
-Second Chance 10K Test with cache size = 10, 50, 100, 250, 500
-    9915
-    9510
-    9022
-    7526
-    5178
-***********************************************************************************
-----------FIFO----------
-
-50 Total Requests 
-10 Total Page Faults 
-0.200 Miss Rate 
-0.800 Hit Rate
-----------End FIFO----------
-
-----------LRU----------
-
-50 Total Requests 
-10 Total Page Faults 
-0.200 Miss Rate 
-0.800 Hit Rate
-----------End LRU----------
-
-----------Second Chance----------
-
-50 Total Requests 
-10 Total Page Faults 
-0.200 Miss Rate 
-0.800 Hit Rate
-----------End Second Chance----------
-FIFO 10K Test with cache size = 10, 50, 100, 250, 500
-
-10000 Total Requests 
 9916 Total Page Faults 
 0.992 Miss Rate 
 0.008 Hit Rate
 
-10000 Total Requests 
 9515 Total Page Faults 
 0.952 Miss Rate 
 0.048 Hit Rate
 
-10000 Total Requests 
 9018 Total Page Faults 
 0.902 Miss Rate 
 0.098 Hit Rate
 
-10000 Total Requests 
 7534 Total Page Faults 
 0.753 Miss Rate 
 0.247 Hit Rate
 
-10000 Total Requests 
 5130 Total Page Faults 
 0.513 Miss Rate 
 0.487 Hit Rate
 
+----------------------------------------------------
 LRU 10K Test with cache size = 10, 50, 100, 250, 500
-
-10000 Total Requests 
 9915 Total Page Faults 
 0.992 Miss Rate 
 0.008 Hit Rate
 
-10000 Total Requests 
 9510 Total Page Faults 
 0.951 Miss Rate 
 0.049 Hit Rate
 
-10000 Total Requests 
 9029 Total Page Faults 
 0.903 Miss Rate 
 0.097 Hit Rate
 
-10000 Total Requests 
 7532 Total Page Faults 
 0.753 Miss Rate 
 0.247 Hit Rate
 
-10000 Total Requests 
 5206 Total Page Faults 
 0.521 Miss Rate 
 0.479 Hit Rate
 
+--------------------------------------------------------------
 Second Chance 10K Test with cache size = 10, 50, 100, 250, 500
-
-10000 Total Requests 
 9915 Total Page Faults 
 0.992 Miss Rate 
 0.008 Hit Rate
 
-10000 Total Requests 
 9510 Total Page Faults 
 0.951 Miss Rate 
 0.049 Hit Rate
 
-10000 Total Requests 
 9022 Total Page Faults 
 0.902 Miss Rate 
 0.098 Hit Rate
 
-10000 Total Requests 
 7526 Total Page Faults 
 0.753 Miss Rate 
 0.247 Hit Rate
 
-10000 Total Requests 
 5178 Total Page Faults 
 0.518 Miss Rate 
 0.482 Hit Rate
