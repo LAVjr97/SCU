@@ -1,10 +1,15 @@
 // Name: Luis Villalta
-// Date: 3/2/24
+// Date: 3/20/24
 // Title: Lab 7 Minix Scheduling
 
-Steps: Once in the Minix machine, "cd .." until you are in the root directory, then type  then type "cd usr/src/kernel".
-       To establish an ftp connection 
+Steps: Following the steps written in my lab 6 report, once in the minix machine and an ftp connection is established 
+       between the host and minix machine, type "cd usr/src/kernel" then "get proc.c" on the host machine. Then once in
+       proc.c, the function called "pick_pro" is where the os decides which process to run. in order to add an element of 
+       randomness, using a random number generator, a number from 0 to 29 is generated, everytime a process is going to 
+       be picked. In the same if statement where it checks if the head is empty in the queue, an "or" is added to check 
+       if the random number is larger than 15 and that "q" which stands for the level of priority a process has, is 
+       greater than 0.
 
 Observations: Having changed the scheduler, the bootup process took much longer, and doing a normal system call 
-              such as "ls" would take significantly longer than before. 
+              such as "ls" took significantly longer than before. 
 

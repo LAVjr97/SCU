@@ -1,7 +1,7 @@
 // Name: Luis Villalta
 // Date: 3/10/24
 // Title: Lab 8 Memory Management
-// Description: 
+// Description: This program implements Least Recently Used (LRU) algorithm for page replacement
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,11 +34,11 @@ int main(int argc, char *argv[]){
 
         for (i=0; i < CACHE_SIZE; i++){
             cache[i].age++;
-            if (cache[i].pageno == page_num){
+            if (cache[i].pageno == page_num){ //if page number is found in cache
                 foundInCache = true;
                 cache[i].age = 0;
             }
-            if(cache[i].age > oldest){
+            if(cache[i].age > oldest){ //update the oldest page in cache and store its index
                 oldest_i = i;
                 oldest = cache[i].age;
             }

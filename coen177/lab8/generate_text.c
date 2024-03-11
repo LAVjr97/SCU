@@ -1,7 +1,7 @@
 // Name: Luis Villalta
 // Date: 3/10/24
 // Title: Lab 8 Memory Management
-// Description: 
+// Description: This program generates a text file that has 50 random numbers, from 0 to 10. 
 
 #include <stdio.h>
 #include <stdlib.h>

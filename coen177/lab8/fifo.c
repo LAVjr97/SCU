@@ -1,6 +1,7 @@
 // Name: Luis Villalta
 // Date: 3/10/24
 // Title: Lab 8 Memory Management
+// Description: Program implements a First In First Out (FIFO) algorithim for page replacement. 
 
 
 #include <stdio.h>

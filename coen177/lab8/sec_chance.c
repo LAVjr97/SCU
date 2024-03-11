@@ -1,7 +1,7 @@
 // Name: Luis Villalta
 // Date: 3/10/24
 // Title: Lab 8 Memory Management
-// Description: 
+// Description: This program implements a second chance (SC) algorithm for page replacement
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -33,10 +33,10 @@ int main(int argc, char *argv[]){
         totalRequests++;
 
         for (i=0; i < CACHE_SIZE; i++)
-            if (cache[i].pageno == page_num){
+            if (cache[i].pageno == page_num){ //if page number is found in cache
                 foundInCache = true;
                 cache[i].chance = 1;
-                break; //break out loop because found page_num in cache
+                break; 
             }
         
         if (foundInCache == false){
@@ -44,7 +44,7 @@ int main(int argc, char *argv[]){
             totalFaults++;
             printf("%d\n", page_num);
             while(cache[cache_i].chance != 0){
-                cache[cache_i].chance = 0; //update chance bits to 0 from 1
+                cache[cache_i].chance = 0; //update chance bits to 0 that were 1
                 cache_i = (cache_i + 1) % CACHE_SIZE; 
             }
 
