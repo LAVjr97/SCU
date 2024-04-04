@@ -1,3 +1,8 @@
+// Name: Luis Villalta
+// Date: 3/17/24
+// Title: Lab 9 - Step 3
+// Description: This program uses a given buffer size to read a given text file.
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

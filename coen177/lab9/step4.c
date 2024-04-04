@@ -1,3 +1,8 @@
+// Name: Luis Villalta
+// Date: 3/17/24
+// Title: Lab 9 - Step 4
+// Description: This program reads from a file and writes to a new file given a buffer size and text file to read from. 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,3 +20,4 @@ int main(int argc, char *argv[]){
     fclose(rp);
     return 0;
 }
+	

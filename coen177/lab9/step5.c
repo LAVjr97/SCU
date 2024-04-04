@@ -1,3 +1,9 @@
+// Name: Luis Villalta
+// Date: 3/17/24
+// Title: Lab 9 - Step 5
+// Description: This program uses a given number of threads to write new files using a give buffer size, which 
+//              it reads from a given file. 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -46,5 +52,6 @@ void *go(void *arg){
     fclose(fp);
     fclose(rp);
     return 0;
+
 }
 
