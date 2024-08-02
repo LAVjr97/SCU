@@ -115,7 +115,7 @@ namespace coen79_lab7
         size_type used_slots; // Number of used slots in the stindex_array array
         
         //Helper functions
-        size_type search_company(const std::string& company_name);
+        size_type search_co mpany(const std::string& company_name);
     };
 }
 #endif

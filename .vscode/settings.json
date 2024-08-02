@@ -3,6 +3,7 @@
     "files.associations": {
         "iostream": "cpp",
         "pthread.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "string": "cpp"
     }
 }

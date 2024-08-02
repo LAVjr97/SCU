@@ -70,22 +70,22 @@ namespace coen79_lab7
         
         //CONSTRUCTORS AND DESTRUCTOR
         company();
-        company(const std::string& company_name);
+        company(const std::string& company_name); 
         company(const company& src);
-        ~company();
+        ~company(); 
         
         // Modification member functions
-        node* get_head();
-        node* get_tail();
-        bool insert(const std::string& product_name, const float& price);
-        bool erase(const std::string& product_name);
-        company& operator= (const company& src);
-        
+        node* get_head(); 
+        node* get_tail(); 
+        bool insert(const std::string& product_name, const float& price); 
+        bool erase(const std::string& product_name); 
+        company& operator= (const company& src); 
+         
         // Constant member functions
-        const node* get_head() const;
-        const node* get_tail() const;
-        std::string get_name() const;
-        void print_items();
+        const node* get_head() const; 
+        const node* get_tail() const; 
+        std::string get_name() const; 
+        void print_items(); 
         
     private:
         std::string company_name; // Name of company
