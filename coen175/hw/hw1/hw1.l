@@ -1,0 +1,17 @@
+%{
+    /* Definitions */
+%}
+
+/* Rules */
+
+%%
+
+
+
+
+%%
+
+
+int main(){
+    
+}
