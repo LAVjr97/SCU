@@ -51,7 +51,7 @@ float mode(float *num){
 //Middle when sorted
 float median(float *num){
     float median;
-
+    
     
 
     return median;
