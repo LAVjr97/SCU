@@ -1,0 +1,51 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 04/04/2025 02:52:42 PM
+// Design Name: 
+// Module Name: mux_test
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module mux_test();
+
+reg [1:0] sel;
+reg A, B, C, D;
+wire out;
+mux test(A, B, C, D, sel, out);
+
+initial
+begin
+    sel = 2'b00;
+    A = 1; 
+    B = 0;
+    C = 1; 
+    D = 0;
+    #50
+    
+    sel = 2'b01;
+    #50
+    
+    sel = 2'b10;
+    #50
+    
+    sel = 2'b11;
+
+    #50
+    $finish;
+end
+endmodule
+
