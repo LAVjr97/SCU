@@ -20,6 +20,8 @@ int main(void){
 
     size_t length = sizeof(slist) / sizeof(slist[0]);
     sort(slist, length);
+    
+    
 }
 
 void sort(char **slist, size_t length){
