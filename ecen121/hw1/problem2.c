@@ -54,5 +54,12 @@ void calcDate(unsigned long inputSec){
 
     year += startYear;
 
-    printf("\n%d/%d/%d %d:%d:%d", month, day, year, hour, minutes, seconds);
+    printf("%d/%d/%d %d:%d:%d", month, day, year, hour, minutes, seconds);
 }
+/*71031077
+73292866
+420696291
+216085900
+1591050919
+1577964071
+2298416818*/

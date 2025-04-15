@@ -19,9 +19,26 @@ int main(void){
     char *slist[10] = {str1, str2, str3, str4, str5, str6, str7, str8, str9, str10};
 
     size_t length = sizeof(slist) / sizeof(slist[0]);
+    
+    printf("Test 1\n");
     sort(slist, length);
+
+    printf("\nTest 2\n");
     
-    
+    char str11[] = "Hello";
+    char str12[] = "Dog";
+    char str13[] = "Cat";
+    char str14[] = "rabbit";
+    char str15[] = "man";
+    char str16[] = "woman";
+    char str17[] = "person";
+    char str18[] = "camera";
+    char str19[] = "TV";
+    char str20[] = "clueless";
+    char *slist1[10] = {str11, str12, str13, str14, str15, str16, str17, str18, str19, str20};
+
+    length = sizeof(slist1) / sizeof(slist1[0]);
+    sort(slist1, length);
 }
 
 void sort(char **slist, size_t length){
